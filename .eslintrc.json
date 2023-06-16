@@ -10,9 +10,9 @@
       ],
       "parserOptions": {
         "project": [
-            "tsconfig.json",
-            "tsconfig.base.json",
-            "e2e/tsconfig.e2e.json"
+          "tsconfig.json",
+          "tsconfig.base.json",
+          "e2e/tsconfig.e2e.json"
         ],
         "createDefaultProgram": true
       },
@@ -21,8 +21,7 @@
         "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
-      "plugins": [
-      ],
+      "plugins": [],
       "rules": {
         "id-blacklist": "off",
         "max-len": "off",
@@ -38,26 +37,26 @@
         "@typescript-eslint/no-unused-expressions": "off",
         "@typescript-eslint/unbound-method": "off",
         "@typescript-eslint/member-ordering": [
-            "error",
-            {
-                "default": [
-                    "public-static-field",
-                    "protected-static-field",
-                    "private-static-field",
-                    "public-instance-field",
-                    "protected-instance-field",
-                    "private-instance-field",
-                    "public-constructor",
-                    "protected-constructor",
-                    "private-constructor",
-                    "public-static-method",
-                    "protected-static-method",
-                    "private-static-method",
-                    "public-instance-method",
-                    "protected-instance-method",
-                    "private-instance-method"
-                ]
-            }
+          "error",
+          {
+            "default": [
+              "public-static-field",
+              "protected-static-field",
+              "private-static-field",
+              "public-instance-field",
+              "protected-instance-field",
+              "private-instance-field",
+              "public-constructor",
+              "protected-constructor",
+              "private-constructor",
+              "public-static-method",
+              "protected-static-method",
+              "private-static-method",
+              "public-instance-method",
+              "protected-instance-method",
+              "private-instance-method"
+            ]
+          }
         ],
         "@angular-eslint/component-selector": [
           "off",

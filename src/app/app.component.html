@@ -1,10 +1,10 @@
 <slb-navigation-framework 
   [applicationLogo]="'assets/logos/delfi.png'"
   [applicationName]="'My app'"
-  [menu]="menu"
   [hasSidenav]="true" 
   [notifications]="true"
   [pageTitle]="pageTitle"
+  [secondaryNavigationItems]="secondaryLinks"
   [slbLogo]="'assets/logos/slb-white.png'"
 >
   <slb-framework-toolbar>
@@ -63,25 +63,6 @@
     <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
   </mat-nav-list>
 </ng-template>
-
-<mat-menu #menu="matMenu">
-  <a mat-menu-item matTooltip="Home" [routerLink]="['home']">
-    <mat-icon svgIcon="home"></mat-icon>
-    <span>Home</span>
-  </a>
-  <a mat-menu-item matTooltip="Notifications" [routerLink]="['notifications']">
-      <mat-icon svgIcon="layers"></mat-icon>
-      <span>Notifications</span>
-    </a>
-  <button mat-menu-item disabled>
-    <mat-icon svgIcon="more"></mat-icon>
-    <span>More items</span>
-  </button>
-  <a mat-menu-item matTooltip="Themes" [routerLink]="['themes']">
-    <mat-icon svgIcon="color-picker"></mat-icon>
-    <span>Themes</span>
-  </a>
-</mat-menu>
 
 <ng-template #content>
   <!-- * * * The content below is only a placeholder and can be replaced * * * -->

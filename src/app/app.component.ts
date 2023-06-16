@@ -4,7 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router, RoutesRecognized } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { LinkItem, isDefined } from '@slb-dls/angular-material/shared';
+import { isDefined, NavItem } from '@slb-dls/angular-material/shared';
 import { SlbNotificationItem } from '@slb-dls/angular-material/notifications-panel';
 
 @Component({
@@ -19,7 +19,36 @@ export class AppComponent implements OnDestroy {
 
     showHeader: boolean = true;
     pageTitle: string = '';
-    secondaryLinks: LinkItem[] = [];
+    secondaryLinks: NavItem[] = [
+        {
+            'label': 'Default',
+            'routerLink': [
+                '',
+                'home',
+            ],
+        },
+        {
+            'label': 'Page 1',
+            'routerLink': [
+                '',
+                'notifications',
+            ],
+        },
+        {
+            'label': 'Page 2',
+            'routerLink': [
+                '',
+                'themes',
+            ],
+        },
+        {
+            'label': 'Page 3',
+            'routerLink': [
+                '',
+                'notifications',
+            ],
+        },
+    ];
 
     private routerSubscription = Subscription.EMPTY;
 
@@ -44,6 +73,5 @@ export class AppComponent implements OnDestroy {
         const data: any = event.state.root.firstChild?.data;
         this.showHeader = isDefined(data.showHeader) ? data.showHeader : true;
         this.pageTitle = data.title;
-        this.secondaryLinks = data.links;
     }
 }
