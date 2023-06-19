@@ -17,8 +17,6 @@
         "createDefaultProgram": true
       },
       "extends": [
-        "plugin:@angular-eslint/ng-cli-compat",
-        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "plugins": [],
@@ -36,28 +34,7 @@
         "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/no-unused-expressions": "off",
         "@typescript-eslint/unbound-method": "off",
-        "@typescript-eslint/member-ordering": [
-          "error",
-          {
-            "default": [
-              "public-static-field",
-              "protected-static-field",
-              "private-static-field",
-              "public-instance-field",
-              "protected-instance-field",
-              "private-instance-field",
-              "public-constructor",
-              "protected-constructor",
-              "private-constructor",
-              "public-static-method",
-              "protected-static-method",
-              "private-static-method",
-              "public-instance-method",
-              "protected-instance-method",
-              "private-instance-method"
-            ]
-          }
-        ],
+        "@typescript-eslint/member-ordering": "off",
         "@angular-eslint/component-selector": [
           "off",
           {
@@ -78,7 +55,7 @@
         "@angular-eslint/no-host-metadata-property": "off",
         "@angular-eslint/no-output-on-prefix": "off",
         "@angular-eslint/prefer-output-readonly": "off",
-        "@typescript-eslint/consistent-type-definitions": "error",
+        "@typescript-eslint/consistent-type-definitions": "off",
         "@typescript-eslint/dot-notation": "off",
         "@typescript-eslint/explicit-member-accessibility": [
           "off",
@@ -87,7 +64,7 @@
           }
         ],
         "@typescript-eslint/no-inferrable-types": "off",
-        "@typescript-eslint/no-this-alias": "error",
+        "@typescript-eslint/no-this-alias": "off",
         "@typescript-eslint/prefer-for-of": "off",
         "@typescript-eslint/prefer-readonly": "off",
         "arrow-parens": [
