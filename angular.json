@@ -145,10 +145,11 @@
           }
         },
         "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
+          "builder": "@cypress/schematic:cypress",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "dls-boilerplate-material:serve"
+            "devServerTarget": "dls-boilerplate-material:serve",
+            "watch": true,
+            "headless": false
           },
           "configurations": {
             "production": {
@@ -164,6 +165,38 @@
               "src/**/*.html"
             ]
           }
+        },
+        "cypress-run": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "dls-boilerplate-material:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "dls-boilerplate-material:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "watch": true,
+            "headless": false
+          }
+        },
+        "ct": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "dls-boilerplate-material:serve",
+            "watch": true,
+            "headless": false,
+            "testingType": "component"
+          },
+          "configurations": {
+            "development": {
+              "devServerTarget": "dls-boilerplate-material:serve:development"
+            }
+          }
         }
       }
     }
@@ -175,5 +208,11 @@
     "@angular-eslint/schematics:library": {
       "setParserOptionsProject": true
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "@cypress/schematic",
+      "@schematics/angular"
+    ]
   }
 }
