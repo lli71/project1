@@ -14,3 +14,4 @@ export class HomeComponent implements OnInit {
 
 
 }
+//find the navigation bar
