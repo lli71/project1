@@ -21,31 +21,73 @@ export class AppComponent implements OnDestroy {
     pageTitle: string = '';
     secondaryLinks: NavItem[] = [
         {
-            'label': 'Default',
+            'label': 'Christmas Tree',
             'routerLink': [
                 '',
-                'home',
+                'chrismas-tree',
             ],
         },
         {
-            'label': 'Page 1',
+            'label': 'Modum Gas',
             'routerLink': [
                 '',
-                'notifications',
+                'modum-gas',
             ],
         },
         {
-            'label': 'Page 2',
+            'label': 'Modum Chem',
             'routerLink': [
                 '',
-                'themes',
+                'modum-chem',
             ],
         },
         {
-            'label': 'Page 3',
+            'label': 'Modum Flow',
             'routerLink': [
                 '',
-                'notifications',
+                'modum-flow',
+            ],
+        },
+        {
+            'label': '3"Eletric Actuator',
+            'routerLink': [
+                '',
+                'three-eletric-actuator',
+            ],
+        },
+        {
+            'label': 'six-eletric-actuator',
+            'routerLink': [
+                '',
+                'six-eletric-actuator',
+            ],
+        },
+        {
+            'label': '5" Hudraulic Actuator',
+            'routerLink': [
+                '',
+                'hydralic-actuator',
+            ],
+        },
+        {
+            'label': 'Automated Pressure Vent Valve Component',
+            'routerLink': [
+                '',
+                'automated-pressure-vent-valve',
+            ],
+        },
+        {
+            'label': 'Pressure Temperature Monitor System',
+            'routerLink': [
+                '',
+                'ptms',
+            ],
+        },
+        {
+            'label': 'Explore Data',
+            'routerLink': [
+                '',
+                'explore-data',
             ],
         },
     ];
@@ -53,7 +95,7 @@ export class AppComponent implements OnDestroy {
     private routerSubscription = Subscription.EMPTY;
 
     constructor(
-        router: Router,
+        private router: Router,
         matIconRegistry: MatIconRegistry,
         domSanitizer: DomSanitizer
     ) {
@@ -74,4 +116,7 @@ export class AppComponent implements OnDestroy {
         this.showHeader = isDefined(data.showHeader) ? data.showHeader : true;
         this.pageTitle = data.title;
     }
+    goToChristmasTree(): void {
+        this.router.navigate(['/christmas-tree']); // Navigate to the "Christmas Tree" page
+      }
 }

@@ -20,6 +20,15 @@ import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule
 import { MatCheckboxModule, MAT_CHECKBOX_DEFAULT_OPTIONS } from '@angular/material/checkbox';
 import { MatRadioModule, MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio';
 
+
+import { MatSortModule } from '@angular/material/sort';
+import { MatCardModule } from '@angular/material/card';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
+import { SlbEmptyStateModule } from '@slb-dls/angular-material/empty-state';
+import { SlbProgressIndicatorModule } from '@slb-dls/angular-material/progress-indicator';
+import { SlbPaginationControlModule } from '@slb-dls/angular-material/pagination-control';
+import { SlbSearchModule } from '@slb-dls/angular-material/search';
 import { SlbNavigationFrameworkModule } from '@slb-dls/angular-material/navigation-framework';
 import { SlbSharedModule } from '@slb-dls/angular-material/shared';
 import { SlbNotificationModule, MessageService } from '@slb-dls/angular-material/notification';
@@ -30,14 +39,23 @@ import { SlbButtonModule } from '@slb-dls/angular-material/button';
 import { SlbBreadcrumbsModule } from '@slb-dls/angular-material/breadcrumbs';
 import { SlbFormFieldModule } from '@slb-dls/angular-material/form-field';
 import { SLB_MOMENT_DATE_FORMATS, SLB_THEMING_OPTIONS } from '@slb-dls/angular-material/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ThemeSwitcherComponent } from './theme-switcher/theme-switcher.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { themeConfig } from '../themes/theme.config';
-
+import { ModumGasComponent } from './modum-gas/modum-gas.component';
+import { ModumChemComponent } from './modum-chem/modum-chem.component';
+import { ModumFlowComponent } from './modum-flow/modum-flow.component';
+import { ChristmastreeComponent } from './christmastree/christmastree.component';
+import { ThreeElectricActuatorComponent } from './three-electric-actuator/three-electric-actuator.component';
+import { SixElectricActuatorComponent } from './six-electric-actuator/six-electric-actuator.component';
+import { HydraulicActuatorComponent } from './hydraulic-actuator/hydraulic-actuator.component';
+import { AutomatedPressureVentValveComponent } from './automated-pressure-vent-valve/automated-pressure-vent-valve.component';
+import { PtmsComponent } from './ptms/ptms.component';
+import { ExploreDataComponent } from './explore-data/explore-data.component';
+import {MatTableModule} from '@angular/material/table';
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline',
 };
@@ -52,6 +70,17 @@ const defaultColor = {
     HomeComponent,
     ThemeSwitcherComponent,
     NotificationsComponent,
+    ModumGasComponent,
+    ModumChemComponent,
+    ModumFlowComponent,
+    ChristmastreeComponent,
+    ThreeElectricActuatorComponent,
+    SixElectricActuatorComponent,
+    HydraulicActuatorComponent,
+    AutomatedPressureVentValveComponent,
+    PtmsComponent,
+    ExploreDataComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -61,7 +90,7 @@ const defaultColor = {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-
+    MatTableModule,
     MatMomentDateModule,
     MatInputModule,
     MatFormFieldModule,
@@ -75,7 +104,9 @@ const defaultColor = {
     MatRadioModule,
     MatSlideToggleModule,
     MatTooltipModule,
-
+    MatSortModule,
+    MatCardModule,
+    MatPaginatorModule,
     SlbSharedModule,
     SlbButtonModule,
     SlbFormFieldModule,
@@ -85,6 +116,10 @@ const defaultColor = {
     SlbNavigationFrameworkModule,
     SlbBreadcrumbsModule,
     SlbLogoutModule,
+    SlbSearchModule,
+    SlbPaginationControlModule,
+    SlbProgressIndicatorModule,
+    SlbEmptyStateModule
   ],
   providers: [
     { provide: SLB_THEMING_OPTIONS, useValue: themeConfig },
