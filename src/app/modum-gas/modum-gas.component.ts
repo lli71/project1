@@ -10,17 +10,19 @@ export interface MyData {
   name: string;
   // status: { status: number };
   status: boolean
-  progressValue: number;
+  progressValue: string;
   range:string;
   unit: string;
 }
 
 const ELEMENT_DATA: MyData[] = [
-  { position: 1, name: 'Valve Position', status: true, progressValue: 70, range:'0 ~ 100', unit: 'H' },
-  { position: 2, name: 'Inlet Pressure', status: true, progressValue: 70, range:'0 ~ 100', unit: 'H' },
-  { position: 3, name: 'Outlet Pressure', status: false, progressValue: 50, range:'0 ~ 100', unit: 'H' },
-  { position: 4, name: 'Inlet Temperature', status: true, progressValue: 70, range:'0 ~ 100', unit: 'H' },
-  { position: 5, name: 'Gas Flowrate', status: true, progressValue: 70, range:'0 ~ 100', unit: 'H' },
+  { position: 1, name: 'Valve Position', status: true, progressValue: '70', range:'0% ~ 100', unit: '%' },
+  { position: 2, name: 'Inlet Pressure', status: true, progressValue: '70', range:'0 ~ 200', unit: 'PSI' },
+  { position: 3, name: 'Outlet Pressure', status: false, progressValue: '50', range:'0 ~ 200', unit: 'PSI' },
+  { position: 4, name: 'Inlet Temperature', status: true, progressValue: '70', range:'0 ~ 50', unit: '°C' },
+  { position: 5, name: 'Gas Flowrate', status: true, progressValue: '80', range:'0 ~ 50', unit: 'kg/hr' },
+  { position: 6, name: 'Gas Flowrate', status: true, progressValue: '80', range:'0 ~ 50', unit: 'kg/hr' },
+  { position: 1, name: 'Valve Position', status: true, progressValue: '70', range:'0% ~ 100', unit: '%' },
 
   // Add more data as needed
 ];
