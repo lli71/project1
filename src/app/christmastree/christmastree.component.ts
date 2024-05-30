@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./christmastree.component.css']
 })
 export class ChristmastreeComponent {
-
+  
 }
