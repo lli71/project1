@@ -1,30 +1,121 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
-import {MatTableModule} from '@angular/material/table';
+// import { Component, OnInit, ViewChild } from '@angular/core';
+// import { MatTableDataSource } from '@angular/material/table';
+// import { MatSort } from '@angular/material/sort';
+// import { FormControl } from '@angular/forms';
+// import { ProgressIndicatorMode, ProgressIndicatorType } from '@slb-dls/angular-material/progress-indicator';
+// import { PageEvent } from '@angular/material/paginator';
+// import { SelectionModel } from '@angular/cdk/collections';
+// export interface MyData {
+//   position: number;
+//   name: string;
+//   status: boolean;
+//   progressValue: string;
+//   range: string;
+//   unit: string;
+// }
+
+// const ELEMENT_DATA: MyData[] = [
+//   { position: 1, name: 'Valve Position', status: true, progressValue: '70', range: '0% ~ 100', unit: '%' },
+//   { position: 2, name: 'Inlet Pressure', status: true, progressValue: '70', range: '0 ~ 200', unit: 'PSI' },
+//   { position: 3, name: 'Outlet Pressure', status: false, progressValue: '50', range: '0 ~ 200', unit: 'PSI' },
+//   { position: 4, name: 'Inlet Temperature', status: true, progressValue: '70', range: '0 ~ 50', unit: '°C' },
+//   { position: 5, name: 'Gas Flowrate', status: true, progressValue: '80', range: '0 ~ 50', unit: 'kg/hr' },
+//   { position: 6, name: 'Flowrate Setpoint', status: true, progressValue: '80', range: '0 ~ 50', unit: 'kg/hr' },
+//   { position: 7, name: 'Valve Position', status: true, progressValue: '70', range: '0% ~ 100', unit: '%' },
+// ];
+
+// @Component({
+//   selector: 'app-modum-gas',
+//   templateUrl: './modum-gas.component.html',
+//   styleUrls: ['./modum-gas.component.css']
+// })
+// export class ModumGasComponent implements OnInit {
+//   dataSource = new MatTableDataSource<MyData>(ELEMENT_DATA);
+//   displayedColumns: string[] = ['position', 'name', 'status', 'progress', 'range', 'unit','select'];
+//   searchControl = new FormControl();
+//   pageSizeOptions: number[] = [5, 10, 25, 100];
+//   pageSize = 5;
+//   currentPage = 0;
+//   length = ELEMENT_DATA.length;
+//   compact = false;
+//   isSearchVisible = true;
+//   showLabel = true;
+//   showPageCounter = true;
+//   showFirstLastButtons = true;
+//   showPageSize = true;
+//   isDisabled = false;
+//   progressIndicatorMode = ProgressIndicatorMode;
+//   progressIndicatorType = ProgressIndicatorType;
+// // 添加 SelectionModel 属性
+// selection = new SelectionModel<MyData>(true, []);
+//   @ViewChild(MatSort) sort!: MatSort;
+
+//   ngOnInit() {
+//     this.dataSource.sort = this.sort;
+//     this.searchControl.valueChanges.subscribe(value => {
+//       this.applyFilter(value);
+//     });
+//     this.updateTableData();
+//   }
+
+//   applyFilter(filterValue: string) {
+//     this.dataSource.filter = filterValue.trim().toLowerCase();
+//   }
+// updateTableData() {
+//   const startIndex = this.currentPage * this.pageSize;
+//   const endIndex = startIndex + this.pageSize;
+//   const paginatedData = ELEMENT_DATA.slice(startIndex, endIndex);
+//   this.dataSource.data = paginatedData;
+//   this.selection.clear();
+// }
+
+// // 添加复选框的相关方法
+// isAllSelected() {
+//   const numSelected = this.selection.selected.length;
+//   const numRows = this.dataSource.data.length;
+//   return numSelected === numRows;
+// }
+
+// masterToggle() {
+//   this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(row => this.selection.select(row));
+// }
+//   onPageChange(event: PageEvent) {
+//     this.currentPage = event.pageIndex;
+//     this.pageSize = event.pageSize;
+//     this.updateTableData();
+//   }
+// }
+
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { FormControl } from '@angular/forms';
 import { ProgressIndicatorMode, ProgressIndicatorType } from '@slb-dls/angular-material/progress-indicator';
+import { SelectionModel } from '@angular/cdk/collections';
+
 export interface MyData {
   position: number;
   name: string;
-  // status: { status: number };
-  status: boolean
+  status: boolean;
   progressValue: string;
-  range:string;
+  range: string;
   unit: string;
 }
 
 const ELEMENT_DATA: MyData[] = [
-  { position: 1, name: 'Valve Position', status: true, progressValue: '70', range:'0% ~ 100', unit: '%' },
-  { position: 2, name: 'Inlet Pressure', status: true, progressValue: '70', range:'0 ~ 200', unit: 'PSI' },
-  { position: 3, name: 'Outlet Pressure', status: false, progressValue: '50', range:'0 ~ 200', unit: 'PSI' },
-  { position: 4, name: 'Inlet Temperature', status: true, progressValue: '70', range:'0 ~ 50', unit: '°C' },
-  { position: 5, name: 'Gas Flowrate', status: true, progressValue: '80', range:'0 ~ 50', unit: 'kg/hr' },
-  { position: 6, name: 'Flowrate Setpoiny', status: true, progressValue: '80', range:'0 ~ 50', unit: 'kg/hr' },
-  { position: 7, name: 'Valve Position', status: true, progressValue: '70', range:'0% ~ 100', unit: '%' },
-
-  // Add more data as needed
+  { position: 1, name: 'Valve Position', status: true, progressValue: '70', range: '0% ~ 100', unit: '%' },
+  { position: 2, name: 'Inlet Pressure', status: true, progressValue: '70', range: '0 ~ 200', unit: 'PSI' },
+  { position: 3, name: 'Outlet Pressure', status: false, progressValue: '50', range: '0 ~ 200', unit: 'PSI' },
+  { position: 4, name: 'Inlet Temperature', status: true, progressValue: '70', range: '0 ~ 50', unit: '°C' },
+  { position: 5, name: 'Gas Flowrate', status: true, progressValue: '80', range: '0 ~ 50', unit: 'kg/hr' },
+  { position: 6, name: 'Flowrate Setpoint', status: true, progressValue: '80', range: '0 ~ 50', unit: 'kg/hr' },
+  { position: 7, name: 'Valve Position', status: true, progressValue: '70', range: '0% ~ 100', unit: '%' },
+  { position: 8, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%' },
+  { position: 9, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%' },
+  { position: 10, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%' },
+  { position: 11, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%' },
+  { position: 12, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%' },
 ];
 
 @Component({
@@ -34,17 +125,23 @@ const ELEMENT_DATA: MyData[] = [
 })
 export class ModumGasComponent implements OnInit {
   dataSource = new MatTableDataSource<MyData>(ELEMENT_DATA);
-  displayedColumns: string[] = ['position', 'name', 'status', 'progress','range', 'unit'];
+  displayedColumns: string[] = ['select', 'position', 'name', 'status', 'progress', 'range', 'unit'];
   searchControl = new FormControl();
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  pageSize = 10;
+  pageSize = 5;
+  currentPage = 0;
   length = ELEMENT_DATA.length;
   compact = false;
   isSearchVisible = true;
-  mode = 'determinate';
-  type = 'linear';
+  showLabel = true;
+  showPageCounter = true;
+  showFirstLastButtons = true;
+  showPageSize = true;
+  isDisabled = false;
   progressIndicatorMode = ProgressIndicatorMode;
   progressIndicatorType = ProgressIndicatorType;
+  selection = new SelectionModel<MyData>(true, []);
+
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -54,9 +151,42 @@ export class ModumGasComponent implements OnInit {
     this.searchControl.valueChanges.subscribe(value => {
       this.applyFilter(value);
     });
+    this.updateTableData();
   }
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  updateTableData() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    const selectedData = this.selection.selected;
+    const unselectedData = ELEMENT_DATA.filter(item => !this.selection.selected.includes(item));
+    const newData = [...selectedData, ...unselectedData];
+    this.dataSource.data = newData.slice(startIndex, endIndex);
+    this.length = newData.length;
+  }
+
+  onPageChange(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.updateTableData();
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  masterToggle() {
+    this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(row => this.selection.select(row));
+    this.updateTableData();
+  }
+
+  toggleSelection(row: MyData) {
+    this.selection.toggle(row);
+    this.updateTableData();
   }
 }
