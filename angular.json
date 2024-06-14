@@ -29,16 +29,26 @@
               "src/favicon.ico",
               "src/assets",
               {
+                "glob": "ag-grid.min.css",
+                "input": "./node_modules/@ag-grid-community/core/dist/styles",
+                "output": "assets/styles"
+            },
+              {
                 "glob": "**/*",
                 "ignore": [
                   "styles/**/*"
                 ],
                 "input": "./node_modules/@slb-dls/angular-material/assets",
                 "output": "assets"
+                
               }
             ],
             "styles": [
               "src/styles.scss",
+              "node_modules/ag-grid-community/styles/ag-grid.css",
+              "node_modules/ag-grid-community/styles/ag-theme-quartz.css",
+              "node_modules/ag-grid-community/styles/ag-theme-alpine.css",
+              "node_modules/@slb-dls/angular-material/assets/styles/ag-grid-community/dls-ag-grid-light.css",
               {
                 "input": "./node_modules/@slb-dls/angular-material/assets/styles/dls-mat-light-theme.css",
                 "bundleName": "dls-mat-light-theme",
@@ -47,6 +57,11 @@
               {
                 "input": "./node_modules/@slb-dls/angular-material/assets/styles/dls-mat-dark-theme.css",
                 "bundleName": "dls-mat-dark-theme",
+                "inject": false
+              },
+              {
+                "input": "./node_modules/@slb-dls/angular-material/assets/styles/ag-grid-community/dls-ag-grid-light.css",
+                "bundleName": "dls-mat-light-theme",
                 "inject": false
               },
               {

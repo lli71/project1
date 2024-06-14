@@ -13,23 +13,24 @@ export interface MyData {
   name: string;
   status: boolean;
   progressValue: string;
-  range: string;
+  range: number;
   unit: string;
+  isUpdated:boolean
 }
 
 const ELEMENT_DATA: MyData[] = [
-  { equipment:'Modum Gas',equipmentID:'1',position: 1, name: 'Valve Position', status: true, progressValue: '70', range: '0% ~ 100', unit: '%' },
-  { equipment:'Modum Gas',equipmentID:'1',position: 2, name: 'Inlet Pressure', status: true, progressValue: '70', range: '0 ~ 200', unit: 'PSI' },
-  { equipment:'Modum Gas',equipmentID:'1',position: 3, name: 'Outlet Pressure', status: false, progressValue: '50', range: '0 ~ 200', unit: 'PSI' },
-  { equipment:'Modum Gas',equipmentID:'1',position: 4, name: 'Inlet Temperature', status: true, progressValue: '70', range: '0 ~ 50', unit: '°C' },
-  { equipment:'Modum Gas',equipmentID:'1',position: 5, name: 'Gas Flowrate', status: true, progressValue: '80', range: '0 ~ 50', unit: 'kg/hr' },
-  { equipment:'Modum Gas',equipmentID:'1',position: 6, name: 'Flowrate Setpoint', status: true, progressValue: '80', range: '0 ~ 50', unit: 'kg/hr' },
-  { equipment:'Modum Gas',equipmentID:'1',position: 7, name: 'Valve Position', status: true, progressValue: '70', range: '0% ~ 100', unit: '%' },
-  { equipment:'Modum Gas',equipmentID:'1',position: 8, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%' },
-  { equipment:'Modum Gas',equipmentID:'1',position: 9, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%' },
-  { equipment:'Modum Gas',equipmentID:'1',position: 10, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%' },
-  { equipment:'Modum Gas',equipmentID:'1',position: 11, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%' },
-  { equipment:'Modum Gas',equipmentID:'1',position: 12, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%' },
+  { equipment:'Modum Gas',equipmentID:'1',position: 1, name: 'Valve Position', status: true, progressValue: '70', range:  100, unit: '%',isUpdated:true },
+  { equipment:'Modum Gas',equipmentID:'1',position: 2, name: 'Inlet Pressure', status: true, progressValue: '70', range: 200, unit: 'PSI',isUpdated:false  },
+  { equipment:'Modum Gas',equipmentID:'1',position: 3, name: 'Outlet Pressure', status: false, progressValue: '50', range: 200, unit: 'PSI' ,isUpdated:false},
+  { equipment:'Modum Gas',equipmentID:'1',position: 4, name: 'Inlet Temperature', status: true, progressValue: '70', range: 50, unit: '°C' ,isUpdated:false},
+  { equipment:'Modum Gas',equipmentID:'1',position: 5, name: 'Gas Flowrate', status: true, progressValue: '80', range: 50, unit: 'kg/hr' ,isUpdated:false},
+  { equipment:'Modum Gas',equipmentID:'1',position: 6, name: 'Flowrate Setpoint', status: true, progressValue: '80', range: 10, unit: 'kg/hr',isUpdated:false },
+  { equipment:'Modum Gas',equipmentID:'1',position: 7, name: 'Valve Position', status: true, progressValue: '70', range: 100, unit: '%',isUpdated:false },
+  { equipment:'Modum Gas',equipmentID:'1',position: 8, name: 'sample data', status: true, progressValue: '20', range: 100, unit: '%',isUpdated:false },
+  { equipment:'Modum Gas',equipmentID:'1',position: 9, name: 'sample data', status: true, progressValue: '20', range: 100, unit: '%' ,isUpdated:false},
+  { equipment:'Modum Gas',equipmentID:'1',position: 10, name: 'sample data', status: true, progressValue: '20', range: 100, unit: '%',isUpdated:false },
+  { equipment:'Modum Gas',equipmentID:'1',position: 11, name: 'sample data', status: true, progressValue: '20', range: 100, unit: '%' ,isUpdated:false},
+  { equipment:'Modum Gas',equipmentID:'1',position: 12, name: 'sample data', status: true, progressValue: '20', range: 100, unit: '%' ,isUpdated:false},
 ];
 
 @Component({
@@ -39,7 +40,7 @@ const ELEMENT_DATA: MyData[] = [
 })
 export class ModumGasComponent implements OnInit {
   dataSource = new MatTableDataSource<MyData>(ELEMENT_DATA);
-  displayedColumns: string[] = ['select', 'position', 'name', 'status', 'progress', 'range', 'unit'];
+  displayedColumns: string[] = ['select', 'position', 'name', 'status', 'progress', 'range', 'unit', 'update'];
   searchControl = new FormControl();
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageSize = 5;
@@ -103,4 +104,6 @@ export class ModumGasComponent implements OnInit {
     this.selection.toggle(row);
     this.updateTableData();
   }
+  updateData()
+  {}
 }

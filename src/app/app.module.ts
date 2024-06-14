@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import { AgGridModule } from 'ag-grid-angular';
 import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -19,12 +19,13 @@ import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefault
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatCheckboxModule, MAT_CHECKBOX_DEFAULT_OPTIONS } from '@angular/material/checkbox';
 import { MatRadioModule, MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio';
-
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { MatSortModule } from '@angular/material/sort';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
+import { SlbChartModule } from '@slb-dls/angular-material/chart';
 import { SlbEmptyStateModule } from '@slb-dls/angular-material/empty-state';
 import { SlbProgressIndicatorModule } from '@slb-dls/angular-material/progress-indicator';
 import { SlbPaginationControlModule } from '@slb-dls/angular-material/pagination-control';
@@ -56,6 +57,19 @@ import { AutomatedPressureVentValveComponent } from './automated-pressure-vent-v
 import { PtmsComponent } from './ptms/ptms.component';
 import { ExploreDataComponent } from './explore-data/explore-data.component';
 import {MatTableModule} from '@angular/material/table';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
+// import {
+//   SlbAutocompleteEditorComponent,
+//   SlbColorEditorComponent,
+//   SlbDateTimeEditorComponent,
+//   SlbDateTimeFilterComponent,
+//   SlbDropdownEditorComponent,
+//   SlbTimeEditorComponent,
+//   SlbCheckboxEditorComponent,
+//   SlbRadioButtonsEditorComponent,
+//   SlbNoDataComponent
+// } from '@slb-dls/angular-material/ag-grid';
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline',
 };
@@ -80,7 +94,7 @@ const defaultColor = {
     AutomatedPressureVentValveComponent,
     PtmsComponent,
     ExploreDataComponent,
-    
+   
   ],
   imports: [
     BrowserModule,
@@ -107,6 +121,7 @@ const defaultColor = {
     MatSortModule,
     MatCardModule,
     MatPaginatorModule,
+    MatProgressBarModule,
     SlbSharedModule,
     SlbButtonModule,
     SlbFormFieldModule,
@@ -119,7 +134,9 @@ const defaultColor = {
     SlbSearchModule,
     SlbPaginationControlModule,
     SlbProgressIndicatorModule,
-    SlbEmptyStateModule
+    SlbEmptyStateModule,
+    SlbChartModule,
+    AgGridModule
   ],
   providers: [
     { provide: SLB_THEMING_OPTIONS, useValue: themeConfig },
@@ -129,6 +146,7 @@ const defaultColor = {
     { provide: MAT_DATE_FORMATS, useValue: SLB_MOMENT_DATE_FORMATS },
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
     { provide: MessageService, useClass: MessageService },
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
   ],
   bootstrap: [AppComponent],
 })

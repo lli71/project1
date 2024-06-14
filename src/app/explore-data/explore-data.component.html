@@ -1,1 +1,146 @@
-<p>explore-data works!</p>
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Data Explore</title>
+</head>
+
+<body >
+  
+    
+        <mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
+            <h5 style="text-align: center;">All Data</h5>
+        <ag-grid-angular
+            style="width: 70%; height: 90%; margin-left: 15%; box-sizing: border-box;"
+            class="ag-theme-dls"
+            [rowData]="rowData"
+            [columnDefs]="columnDefs"
+            [defaultColDef]="defaultColDef"
+            [rowSelection]="rowSelection"
+            [suppressRowClickSelection]="true"
+            [pagination]="true"
+            [paginationPageSize]="paginationPageSize"
+            [paginationPageSizeSelector]="paginationPageSizeSelector"
+            (gridReady)="onGridReady($event)"
+            (rowSelected)="onRowSelected($event)"
+        ></ag-grid-angular>
+    </mat-card>
+   
+      
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+
+<!-- <div class="ag-grid-container" style="display: flex; justify-content: center;">
+    <table style="border-collapse: collapse; font-family: Arial, sans-serif;">
+      <thead>
+        <tr>
+          <th style="border: 1px solid black; padding: 8px;">Equipment</th>
+          <th style="border: 1px solid black; padding: 8px;">Name</th>
+          <th style="border: 1px solid black; padding: 8px;">Progress Value</th>
+          <th style="border: 1px solid black; padding: 8px;">Unit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of tableData" style="border: 1px solid black;">
+          <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.equipment }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.name }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.progressValue }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.unit }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div> -->
+  <mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
+    <table
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    class="dls-sample-table"
+    [class.dls-compact-table]="compact"
+  >
+    <caption>
+      <div class="caption-container">
+        <div class="title">Selected Values</div>
+        <div class="controls"></div>
+      </div>
+    </caption>
+  
+    <ng-container matColumnDef="equipment1">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Equipment
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.equipment }}
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="name1">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="progressValue1">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Value</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.progressValue }}
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="unit1">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit</th>
+      <td mat-cell *matCellDef="let element">{{ element.unit }}</td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="['equipment1', 'name1', 'progressValue1', 'unit1']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['equipment1', 'name1', 'progressValue1', 'unit1']"></tr>
+  </table>
+  
+        </mat-card>
+<!-- <mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
+<slb-chart
+style="width: 50%; margin: 0 auto;"
+[data]="data"
+[labels]="data.labels"
+[title]="title"
+[chartType]="'line'"
+[chartOptions]="options"
+[legendPosition]="'top'"
+[showLegend]="true"
+[showTitle]="true"
+[showTooltip]="true"
+[titlePosition]="'top'"
+></slb-chart>
+</mat-card> -->
+<mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
+  <div>
+    <label>Select Time Granularity:</label>
+    <select [(ngModel)]="selectedTimeGranularity" (change)="onTimeGranularityChange($event)">
+      <option *ngFor="let granularity of timeGranularities" [value]="granularity.value">{{ granularity.label }}</option>
+    </select>
+  </div>
+  
+  <slb-chart
+  style="width: 70%; margin: 0 auto;"
+  [data]="data"
+  [labels]="data.labels"
+  [title]="title"
+  [chartType]="'line'"
+  [chartOptions]="options"
+  [legendPosition]="'top'"
+  [showLegend]="true"
+  [showTitle]="true"
+  [showTooltip]="true"
+  [titlePosition]="'top'"
+  ></slb-chart>
+
+  
+  
+  </mat-card>
+</body>
+
+</html>
+
+

@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./christmastree.component.css']
 })
 export class ChristmastreeComponent {
-  
+  determinateValue = 40;
+  bufferValue =70
 }

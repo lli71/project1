@@ -5,27 +5,27 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { FormControl } from '@angular/forms';
 import { ProgressIndicatorMode, ProgressIndicatorType } from '@slb-dls/angular-material/progress-indicator';
 import { SelectionModel } from '@angular/cdk/collections';
-
 export interface MyData {
   equipment: string;
   equipmentID: string;
   position: number;
   name: string;
   status: boolean;
+  isUpdated: boolean;
   progressValue: string;
   range: string;
   unit: string;
 }
 
 const ELEMENT_DATA: MyData[] = [
-  { equipment: 'Modum Chem', equipmentID: '2', position: 1, name: 'Valve Position', status: true, progressValue: '70', range: '0% ~ 100', unit: '%' },
-  { equipment: 'Modum Chem', equipmentID: '2', position: 2, name: 'Liquid Flowrate', status: true, progressValue: '50', range: '0 ~ 150', unit: 'l/hr' },
-  { equipment: 'Modum Chem', equipmentID: '2', position: 3, name: 'Flowrate Setpoint', status: true, progressValue: '80', range: '0 ~ 150', unit: 'l/hr' },
-  { equipment: 'Modum Chem', equipmentID: '2', position: 4, name: 'Valve Position', status: true, progressValue: '70', range: '0% ~ 100', unit: '%' },
-  { equipment: 'Modum Chem', equipmentID: '2', position: 5, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%' },
-  { equipment: 'Modum Chem', equipmentID: '2', position: 6, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%' },
-  { equipment: 'Modum Chem', equipmentID: '2', position: 7, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%' },
-  { equipment: 'Modum Chem', equipmentID: '2', position: 8, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%' }
+  { equipment: 'Modum Chem', equipmentID: '2', position: 1, name: 'Valve Position', status: true, progressValue: '70', range: '0% ~ 100', unit: '%',isUpdated:true },
+  { equipment: 'Modum Chem', equipmentID: '2', position: 2, name: 'Liquid Flowrate', status: true, progressValue: '50', range: '0 ~ 150', unit: 'l/hr', isUpdated:true},
+  { equipment: 'Modum Chem', equipmentID: '2', position: 3, name: 'Flowrate Setpoint', status: true, progressValue: '80', range: '0 ~ 150', unit: 'l/hr' ,isUpdated:true},
+  { equipment: 'Modum Chem', equipmentID: '2', position: 4, name: 'Valve Position', status: true, progressValue: '70', range: '0% ~ 100', unit: '%' ,isUpdated:true},
+  { equipment: 'Modum Chem', equipmentID: '2', position: 5, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%', isUpdated:true},
+  { equipment: 'Modum Chem', equipmentID: '2', position: 6, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%', isUpdated:true},
+  { equipment: 'Modum Chem', equipmentID: '2', position: 7, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%', isUpdated:true},
+  { equipment: 'Modum Chem', equipmentID: '2', position: 8, name: 'sample data', status: true, progressValue: '20', range: '0% ~ 100', unit: '%', isUpdated:true}
 ];
 
 @Component({
@@ -36,7 +36,7 @@ const ELEMENT_DATA: MyData[] = [
 
 export class ModumChemComponent implements OnInit {
   dataSource = new MatTableDataSource<MyData>(ELEMENT_DATA);
-  displayedColumns: string[] = ['select', 'position', 'name', 'status', 'progress', 'range', 'unit'];
+  displayedColumns: string[] = ['select', 'position', 'name', 'status', 'progress', 'range', 'unit','update'];
   searchControl = new FormControl();
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageSize = 5;
@@ -100,4 +100,11 @@ export class ModumChemComponent implements OnInit {
     this.selection.toggle(row);
     this.updateTableData();
   }
+  updateData()
+  {
+ 
+  }
 }
+
+
+ 

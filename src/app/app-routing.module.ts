@@ -17,7 +17,7 @@ import { ModumChemComponent } from './modum-chem/modum-chem.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/chrismas-tree',
     pathMatch: 'full',
   },
   {
