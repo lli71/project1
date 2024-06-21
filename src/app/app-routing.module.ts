@@ -14,6 +14,7 @@ import { AutomatedPressureVentValveComponent } from './automated-pressure-vent-v
 import { ExploreDataComponent } from './explore-data/explore-data.component';
 import { HydraulicActuatorComponent } from './hydraulic-actuator/hydraulic-actuator.component';
 import { ModumChemComponent } from './modum-chem/modum-chem.component';
+import { DebugComponent } from './debug/debug.component';
 const routes: Routes = [
   {
     path: '',
@@ -109,6 +110,14 @@ const routes: Routes = [
     component: ThemeSwitcherComponent,
     data: {
       title: 'Theme Switching',
+      showHeader: false,
+    },
+  },
+  {
+    path: 'debug',
+    component: DebugComponent,
+    data: {
+      title: 'debug',
       showHeader: false,
     },
   },

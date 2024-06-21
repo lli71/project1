@@ -1,7 +1,6 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AgGridModule } from 'ag-grid-angular';
@@ -20,11 +19,11 @@ import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule
 import { MatCheckboxModule, MAT_CHECKBOX_DEFAULT_OPTIONS } from '@angular/material/checkbox';
 import { MatRadioModule, MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-
+import { AuthInterceptor } from './auth-interceptor.service'; // 确保路径正确
 import { MatSortModule } from '@angular/material/sort';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
-
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SlbChartModule } from '@slb-dls/angular-material/chart';
 import { SlbEmptyStateModule } from '@slb-dls/angular-material/empty-state';
 import { SlbProgressIndicatorModule } from '@slb-dls/angular-material/progress-indicator';
@@ -58,6 +57,9 @@ import { PtmsComponent } from './ptms/ptms.component';
 import { ExploreDataComponent } from './explore-data/explore-data.component';
 import {MatTableModule} from '@angular/material/table';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { SlbPopoverDemoComponent } from './slb-popover-demo/slb-popover-demo.component';
+import { DebugComponent } from './debug/debug.component';
 
 // import {
 //   SlbAutocompleteEditorComponent,
@@ -94,6 +96,9 @@ const defaultColor = {
     AutomatedPressureVentValveComponent,
     PtmsComponent,
     ExploreDataComponent,
+    ConfirmationDialogComponent,
+    SlbPopoverDemoComponent,
+    DebugComponent,
    
   ],
   imports: [
@@ -147,6 +152,7 @@ const defaultColor = {
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
     { provide: MessageService, useClass: MessageService },
     { provide: LocationStrategy, useClass: HashLocationStrategy },
+    {provide: HTTP_INTERCEPTORS,useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
 })

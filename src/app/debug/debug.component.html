@@ -1,0 +1,77 @@
+<div>
+    <mat-table [dataSource]="dataSource" matSort>
+      <!-- Checkbox column -->
+      <ng-container matColumnDef="checkbox">
+        <th mat-header-cell *matHeaderCellDef>
+          <!-- <mat-checkbox [(ngModel)]="isCheckbox2Checked"></mat-checkbox> -->
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (change)="onCheckboxChange($event, row)" ></mat-checkbox>
+        </td>
+      </ng-container>
+  
+      <!-- Position column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
+  
+      <!-- Name column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+  
+      <!-- Equipment column -->
+      <ng-container matColumnDef="equipment">
+        <th mat-header-cell *matHeaderCellDef> Equipment </th>
+        <td mat-cell *matCellDef="let element"> {{element.equipment}} </td>
+      </ng-container>
+  
+  
+      <!-- Status column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element"> {{element.status ? 'Active' : 'Inactive'}} </td>
+      </ng-container>
+  
+  
+      <!-- Progress Value column -->
+      <ng-container matColumnDef="progress">
+        <th mat-header-cell *matHeaderCellDef> Progress Value </th>
+        <td mat-cell *matCellDef="let element"> {{element.progressValue}} </td>
+      </ng-container>
+  
+      <!-- Unit column -->
+      <ng-container matColumnDef="unit">
+        <th mat-header-cell *matHeaderCellDef> Unit </th>
+        <td mat-cell *matCellDef="let element"> {{element.unit}} </td>
+      </ng-container>
+        <!-- Is Updated column -->
+        <ng-container matColumnDef="update">
+            <th mat-header-cell *matHeaderCellDef> Is Updated </th>
+            <td mat-cell *matCellDef="let element"> {{element.isUpdated ? 'Yes' : 'No'}} </td>
+          </ng-container>
+      <!-- Header and row definitions -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </mat-table>
+  </div>
+  
+  <slb-pagination-control
+    #paginator
+    [pageIndex]="currentPage"
+    [showLabel]="true"
+    [showPageCounter]="true"
+    [showFirstLastButtons]="true"
+    [showPageSize]="true"
+    [pageSizeOptions]="pageSizeOptions"
+    [pageSize]="pageSize"
+    [length]="length"
+    [disabled]="false"
+    (page)="onPageChange($event)"
+  ></slb-pagination-control>
+
+
+
+ 

@@ -1,114 +1,180 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+// import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
+// import { MatPaginator, PageEvent } from '@angular/material/paginator';
+// import { MatTableDataSource } from '@angular/material/table';
+// import { FormControl } from '@angular/forms';
+// import { ApiService, MyData } from '../api.service';
+
+// @Component({
+//   selector: 'app-automated-pressure-vent-valve',
+//   templateUrl: './automated-pressure-vent-valve.component.html',
+//   styleUrls: ['./automated-pressure-vent-valve.component.css']
+// })
+// export class AutomatedPressureVentValveComponent implements OnInit, OnDestroy, AfterViewInit {
+//   dataSource: MatTableDataSource<MyData>;
+//   displayedColumns: string[] = ['select', 'position', 'name', 'status', 'progress', 'unit', 'update'];
+//   compact = false;
+//   isSearchVisible = true;
+//   searchControl: FormControl = new FormControl('');
+//   mode = 'determinate';
+//   type = 'primary';
+//   pageSizeOptions: number[] = [5, 6, 7, 8];
+//   pageSize = 5;
+//   length = 0;
+//   currentPage = 0;
+//   selectedRows: MyData[] = [];
+
+//   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+//   constructor(private apiService: ApiService) {
+//     this.dataSource = new MatTableDataSource<MyData>([]);
+//   }
+
+//   ngOnInit(): void {
+//     // Subscribe to filter changes
+//     this.searchControl.valueChanges.subscribe(value => {
+//       this.applyFilter(value);
+//     });
+
+//     // Load data initially
+//     this.loadData();
+//   }
+
+//   ngAfterViewInit(): void {
+//     // Assign paginator only after view initialization
+//     this.dataSource.paginator = this.paginator;
+//   }
+
+//   ngOnDestroy(): void {
+//     // Clean up any subscriptions or intervals if needed
+//   }
+
+//   loadData(): void {
+//     this.apiService.getDeviceData().subscribe(data => {
+//       // Assign data to dataSource
+//       this.dataSource.data = data;
+
+//       // Update length for paginator
+//       this.length = data.length;
+
+//       // Ensure paginator settings are correct
+//       if (this.paginator) {
+//         this.paginator.pageSize = this.pageSize;
+//         this.paginator.length = this.length;
+//         this.paginator.firstPage();
+//       }
+//     });
+//   }
+
+//   onPageChange(event: PageEvent): void {
+//     this.currentPage = event.pageIndex;
+//     this.pageSize = event.pageSize;
+//     console.log('Page changed:', event);
+//     // Handle data slice for pagination if needed
+//   }
+
+//   applyFilter(filterValue: string): void {
+//     this.dataSource.filter = filterValue.trim().toLowerCase();
+//   }
+
+//   onCheckboxChange(event: any, row: MyData): void {
+//     row.checked = event.checked;
+
+//     if (event.checked) {
+//       this.selectedRows.push(row);
+//     } else {
+//       this.selectedRows = this.selectedRows.filter(selected => selected !== row);
+//     }
+
+//     console.log('Selected rows:', this.selectedRows);
+//   }
+// }
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { FormControl } from '@angular/forms';
-import { ProgressIndicatorMode, ProgressIndicatorType } from '@slb-dls/angular-material/progress-indicator';
-import { SelectionModel } from '@angular/cdk/collections';
-
-
-export interface MyData {
-  equipment: string;
-  equipmentID: string;
-  position: number;
-  name: string;
-  status: boolean;
-  isUpdated: boolean;
-  progressValue: string;
-  range: string;
-  unit: string;
-}
-
-const ELEMENT_DATA: MyData[] = [
-  { equipment: 'APVV', equipmentID: '7', position: 1, name: 'Pressure', status: true, progressValue: '70', range: '0 - 200', unit: 'PSI', isUpdated: true },
-  { equipment: 'APVV', equipmentID: '7', position: 2, name: 'Venting Threshold', status: true, progressValue: '70', range: '0 - 200', unit: 'PSI', isUpdated: false },
-  { equipment: 'APVV', equipmentID: '7', position: 3, name: 'Shut Trigger', status: false, progressValue: '10', range: '0 - 200', unit: 'PSI', isUpdated: false },
-  { equipment: 'APVV', equipmentID: '7', position: 4, name: 'Temperature', status: true, progressValue: '70', range: '0 - 50', unit: '°C', isUpdated: false },
-  { equipment: 'APVV', equipmentID: '7', position: 5, name: 'Modulating Valve Position', status: true, progressValue: '80', range: '0% - 100%', unit: '%', isUpdated: false },
-  { equipment: 'APVV', equipmentID: '7', position: 6, name: 'Fail Safe Valve Position', status: true, progressValue: '80', range: '0% - 100%', unit: '%', isUpdated: false },
-  { equipment: 'APVV', equipmentID: '7', position: 7, name: 'Sample Data 1', status: true, progressValue: '20', range: '0% - 100%', unit: '%', isUpdated: false },
-  { equipment: 'APVV', equipmentID: '7', position: 8, name: 'Sample Data 2', status: true, progressValue: '20', range: '0% - 100%', unit: '%', isUpdated: false },
-  { equipment: 'APVV', equipmentID: '7', position: 9, name: 'Sample Data 3', status: true, progressValue: '20', range: '0% - 100%', unit: '%', isUpdated: false },
-  { equipment: 'APVV', equipmentID: '7', position: 10, name: 'Sample Data 4', status: true, progressValue: '20', range: '0% - 100%', unit: '%', isUpdated: false },
-  { equipment: 'APVV', equipmentID: '7', position: 11, name: 'Sample Data 5', status: true, progressValue: '20', range: '0% - 100%', unit: '%', isUpdated: false },
-];
-
-
+import { ApiService, MyData } from '../api.service';
 
 @Component({
   selector: 'app-automated-pressure-vent-valve',
   templateUrl: './automated-pressure-vent-valve.component.html',
   styleUrls: ['./automated-pressure-vent-valve.component.css']
 })
-export class AutomatedPressureVentValveComponent implements OnInit {
-  dataSource = new MatTableDataSource<MyData>(ELEMENT_DATA);
-  displayedColumns: string[] = ['select', 'position', 'name', 'status', 'progress', 'range', 'unit','update'];
-  searchControl = new FormControl();
-  pageSizeOptions: number[] = [5, 10, 25, 100];
-  pageSize = 5;
-  currentPage = 0;
-  length = ELEMENT_DATA.length;
+export class AutomatedPressureVentValveComponent implements OnInit, OnDestroy {
+  dataSource: MatTableDataSource<MyData>;
+  displayedColumns: string[] = ['select', 'position', 'name', 'status', 'progress', 'unit', 'update'];
   compact = false;
   isSearchVisible = true;
-  showLabel = true;
-  showPageCounter = true;
-  showFirstLastButtons = true;
-  showPageSize = true;
-  isDisabled = false;
-  progressIndicatorMode = ProgressIndicatorMode;
-  progressIndicatorType = ProgressIndicatorType;
-  selection = new SelectionModel<MyData>(true, []);
+  searchControl: FormControl = new FormControl('');
+  mode = 'determinate';
+  type = 'primary';
+  pageSizeOptions: number[] = [5, 6, 7, 8];
+  pageSize = 5;
+  length = 0;
+  currentPage = 0;
+  selectedRows: MyData[] = [];
 
-  @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  ngOnInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-    this.searchControl.valueChanges.subscribe(value => {
-      this.applyFilter(value);
-    });
-    this.updateTableData();
+  constructor(private apiService: ApiService) {
+    this.dataSource = new MatTableDataSource<MyData>([]);
   }
 
-  applyFilter(filterValue: string) {
+  ngOnInit(): void {
+    // 加载数据
+    this.loadData();
+  }
+
+  ngOnDestroy(): void {
+    // 清理订阅和资源
+  }
+
+  loadData(): void {
+    this.apiService.getDeviceData().subscribe(data => {
+      // 只显示前5行数据
+      const slicedData = data.slice(0, this.pageSize);
+
+      // 加载数据到dataSource
+      this.dataSource.data = slicedData;
+
+      // 设置数据长度和分页器
+      this.length = data.length;
+      this.dataSource.paginator = this.paginator; // 设置分页器
+
+      // 设置分页器的初始值
+      this.paginator.pageSize = this.pageSize;
+      this.paginator.length = this.length;
+      this.paginator.firstPage();
+
+      // 应用初始过滤
+      const initialSearchValue = this.searchControl.value;
+      this.applyFilter(initialSearchValue);
+    });
+  }
+
+  onPageChange(event: PageEvent): void {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    console.log('Page changed:', event);
+
+    // 处理数据切片或其他逻辑
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.dataSource.data = this.dataSource.data.slice(startIndex, endIndex);
+  }
+
+  applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  updateTableData() {
-    const startIndex = this.currentPage * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    const selectedData = this.selection.selected;
-    const unselectedData = ELEMENT_DATA.filter(item => !this.selection.selected.includes(item));
-    const newData = [...selectedData, ...unselectedData];
-    this.dataSource.data = newData.slice(startIndex, endIndex);
-    this.length = newData.length;
-  }
+  onCheckboxChange(event: any, row: MyData): void {
+    row.checked = event.checked;
 
-  onPageChange(event: PageEvent) {
-    this.currentPage = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.updateTableData();
-  }
+    if (event.checked) {
+      this.selectedRows.push(row);
+    } else {
+      this.selectedRows = this.selectedRows.filter(selected => selected !== row);
+    }
 
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+    console.log('Selected rows:', this.selectedRows);
   }
-
-  masterToggle() {
-    this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(row => this.selection.select(row));
-    this.updateTableData();
-  }
-
-  toggleSelection(row: MyData) {
-    this.selection.toggle(row);
-    this.updateTableData();
-  }
- updateData()
- {
-
- }
 }
-

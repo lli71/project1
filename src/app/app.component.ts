@@ -90,6 +90,13 @@ export class AppComponent implements OnDestroy {
                 'explore-data',
             ],
         },
+        {
+            'label': 'debug',
+            'routerLink': [
+                '',
+                'debug',
+            ],
+        },
     ];
 
     private routerSubscription = Subscription.EMPTY;

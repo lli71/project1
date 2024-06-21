@@ -24,11 +24,11 @@ const ELEMENT_DATA: MyData[] = [
   { equipment: '5" Hydraulic Actuator', equipmentID: '6', position: 2, name: 'Hydraulic Fluid Pressure', status: true, progressValue: '70', range: '0 - 1000', unit: 'PSI', isUpdated: false },
   { equipment: '5" Hydraulic Actuator', equipmentID: '6', position: 3, name: 'Stem Leakage', status: false, progressValue: 'Yes', range: 'Yes or No', unit: '', isUpdated: false },
   { equipment: '5" Hydraulic Actuator', equipmentID: '6', position: 4, name: 'Seat Leakage', status: false, progressValue: 'Yes', range: 'Yes or No', unit: '', isUpdated: false },
-  { equipment: '5" Hydraulic Actuator', equipmentID: '6', position: 7, name: 'Sample Data 1', status: true, progressValue: '20', range: '0% - 100%', unit: '%', isUpdated: false },
-  { equipment: '5" Hydraulic Actuator', equipmentID: '6', position: 8, name: 'Sample Data 2', status: true, progressValue: '20', range: '0% - 100%', unit: '%', isUpdated: false },
-  { equipment: '5" Hydraulic Actuator', equipmentID: '6', position: 9, name: 'Sample Data 3', status: true, progressValue: '20', range: '0% - 100%', unit: '%', isUpdated: false },
-  { equipment: '5" Hydraulic Actuator', equipmentID: '6', position: 10, name: 'Sample Data 4', status: true, progressValue: '20', range: '0% - 100%', unit: '%', isUpdated: false },
-  { equipment: '5" Hydraulic Actuator', equipmentID: '6', position: 11, name: 'Sample Data 5', status: true, progressValue: '20', range: '0% - 100%', unit: '%', isUpdated: false },
+  { equipment: '5" Hydraulic Actuator', equipmentID: '6', position: 5, name: 'Sample Data 1', status: true, progressValue: '20', range: '0% - 100%', unit: '%', isUpdated: false },
+  { equipment: '5" Hydraulic Actuator', equipmentID: '6', position: 6, name: 'Sample Data 2', status: true, progressValue: '20', range: '0% - 100%', unit: '%', isUpdated: false },
+  { equipment: '5" Hydraulic Actuator', equipmentID: '6', position: 7, name: 'Sample Data 3', status: true, progressValue: '20', range: '0% - 100%', unit: '%', isUpdated: false },
+  { equipment: '5" Hydraulic Actuator', equipmentID: '6', position: 8, name: 'Sample Data 4', status: true, progressValue: '20', range: '0% - 100%', unit: '%', isUpdated: false },
+  { equipment: '5" Hydraulic Actuator', equipmentID: '6', position: 9, name: 'Sample Data 5', status: true, progressValue: '20', range: '0% - 100%', unit: '%', isUpdated: false },
 ];
 
 
