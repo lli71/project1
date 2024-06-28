@@ -9,7 +9,7 @@
 <body >
   
     
-        <mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
+        <!-- <mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
             <h5 style="text-align: center;">All Data</h5>
         <ag-grid-angular
             style="width: 70%; height: 90%; margin-left: 15%; box-sizing: border-box;"
@@ -25,7 +25,7 @@
             (gridReady)="onGridReady($event)"
             (rowSelected)="onRowSelected($event)"
         ></ag-grid-angular>
-    </mat-card>
+    </mat-card> -->
    
       
 <span></span>
@@ -53,7 +53,7 @@
       </tbody>
     </table>
   </div> -->
-  <mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
+  <!-- <mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
     <table
     mat-table
     [dataSource]="dataSource"
@@ -98,7 +98,7 @@
     <tr mat-row *matRowDef="let row; columns: ['equipment1', 'name1', 'progressValue1', 'unit1']"></tr>
   </table>
   
-        </mat-card>
+        </mat-card> -->
 <!-- <mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
 <slb-chart
 style="width: 50%; margin: 0 auto;"
@@ -115,17 +115,31 @@ style="width: 50%; margin: 0 auto;"
 ></slb-chart>
 </mat-card> -->
 <mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
-  <div>
-    <label>Select Time Granularity:</label>
-    <select [(ngModel)]="selectedTimeGranularity" (change)="onTimeGranularityChange($event)">
-      <option *ngFor="let granularity of timeGranularities" [value]="granularity.value">{{ granularity.label }}</option>
+
+  <div *ngIf="loading" class="loading-indicator">
+    <h5>Chart Loading</h5>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  <div class="form-group">
+    <label for="timeGranularity">Select Time Granularity:</label>
+    <select id="timeGranularity" class="form-control" [(ngModel)]="selectedTimeGranularity" name="timeGranularity"
+            (change)="onTimeGranularityChange()">
+      <option value="259200000">3 Days</option>
+      <option value="86400000">1 Day</option>
+      <option value="3600000">1 Hour</option>
+      <option value="60000">1 Minute</option>
     </select>
   </div>
   
+  
+  <div>
+  <button (click)="updateChartData()">更新数据</button>
   <slb-chart
-  style="width: 70%; margin: 0 auto;"
+  id="myChart"
+  *ngIf="data.datasets.length > 0" 
+  [ngStyle]="{'width': '1000px', 'height':'1000px','margin': '0 auto'}"
   [data]="data"
-  [labels]="data.labels"
+  [labels]="data.labels || []"
   [title]="title"
   [chartType]="'line'"
   [chartOptions]="options"
@@ -135,10 +149,13 @@ style="width: 50%; margin: 0 auto;"
   [showTooltip]="true"
   [titlePosition]="'top'"
   ></slb-chart>
+ </div>
 
-  
-  
+
+ startTime{{startTime.toISOString()}}  endTime {{endTime}}
+
   </mat-card>
+  
 </body>
 
 </html>

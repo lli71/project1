@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://api.evp.nimbus.slb-ds.com",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

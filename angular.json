@@ -75,7 +75,7 @@
                 "inject": false
               }
             ],
-            "scripts": [],
+            "scripts": [  ],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
