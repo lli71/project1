@@ -9,12 +9,13 @@
 <body >
   
     
-        <!-- <mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
+        <mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
             <h5 style="text-align: center;">All Data</h5>
         <ag-grid-angular
+        *ngIf="this.rowData.length > 0" 
             style="width: 70%; height: 90%; margin-left: 15%; box-sizing: border-box;"
             class="ag-theme-dls"
-            [rowData]="rowData"
+            [rowData]="this.rowData"
             [columnDefs]="columnDefs"
             [defaultColDef]="defaultColDef"
             [rowSelection]="rowSelection"
@@ -25,7 +26,7 @@
             (gridReady)="onGridReady($event)"
             (rowSelected)="onRowSelected($event)"
         ></ag-grid-angular>
-    </mat-card> -->
+    </mat-card>
    
       
 <span></span>
@@ -33,8 +34,8 @@
 <span></span>
 <span></span>
 
-<!-- <div class="ag-grid-container" style="display: flex; justify-content: center;">
-    <table style="border-collapse: collapse; font-family: Arial, sans-serif;">
+<!-- <mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
+    <table   style="border-collapse: collapse; font-family: Arial, sans-serif;">
       <thead>
         <tr>
           <th style="border: 1px solid black; padding: 8px;">Equipment</th>
@@ -44,22 +45,23 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of tableData" style="border: 1px solid black;">
-          <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.equipment }}</td>
-          <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.name }}</td>
-          <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.progressValue }}</td>
-          <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.unit }}</td>
+        <tr *ngFor="let item of selectedData" style="border: 1px solid black;">
+          <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.deviceName }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.tagName }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.value }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.storageUnit }}</td>
         </tr>
       </tbody>
     </table>
-  </div> -->
-  <!-- <mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
+  </mat-card>  -->
+  <mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
     <table
     mat-table
     [dataSource]="dataSource"
     matSort
     class="dls-sample-table"
     [class.dls-compact-table]="compact"
+  
   >
     <caption>
       <div class="caption-container">
@@ -67,38 +69,40 @@
         <div class="controls"></div>
       </div>
     </caption>
-  
-    <ng-container matColumnDef="equipment1">
+   
+    <ng-container matColumnDef="tagName1">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Equipment
+        Device Name
       </th>
       <td mat-cell *matCellDef="let element">
-        {{ element.equipment }}
+        {{ element.deviceName }}
       </td>
     </ng-container>
   
     <ng-container matColumnDef="name1">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Tag Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.tagName }}</td>
     </ng-container>
   
     <ng-container matColumnDef="progressValue1">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Value</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.progressValue }}
+        {{ element.value }}
       </td>
     </ng-container>
   
     <ng-container matColumnDef="unit1">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit</th>
-      <td mat-cell *matCellDef="let element">{{ element.unit }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.storageUnit }}</td>
     </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="['equipment1', 'name1', 'progressValue1', 'unit1']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['equipment1', 'name1', 'progressValue1', 'unit1']"></tr>
+
+    <tr mat-header-row *matHeaderRowDef="['tagName1', 'name1', 'progressValue1', 'unit1']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['tagName1', 'name1', 'progressValue1', 'unit1']"></tr>
   </table>
   
-        </mat-card> -->
+        </mat-card> 
+
+
 <!-- <mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
 <slb-chart
 style="width: 50%; margin: 0 auto;"
@@ -113,7 +117,7 @@ style="width: 50%; margin: 0 auto;"
 [showTooltip]="true"
 [titlePosition]="'top'"
 ></slb-chart>
-</mat-card> -->
+</mat-card>  -->
 <mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
 
   <div *ngIf="loading" class="loading-indicator">
@@ -121,26 +125,29 @@ style="width: 50%; margin: 0 auto;"
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
   <div class="form-group">
-    <label for="timeGranularity">Select Time Granularity:</label>
+    <label for="timeGranularity">Select Duration:</label>
     <select id="timeGranularity" class="form-control" [(ngModel)]="selectedTimeGranularity" name="timeGranularity"
             (change)="onTimeGranularityChange()">
       <option value="259200000">3 Days</option>
       <option value="86400000">1 Day</option>
       <option value="3600000">1 Hour</option>
-      <option value="60000">1 Minute</option>
+      <!-- <option value="60000">1 Minute</option> -->
     </select>
   </div>
   
   
   <div>
-  <button (click)="updateChartData()">更新数据</button>
+ <label>Start Date :</label>
+    <input type="datetime-local" [(ngModel)]="selectedTime">
+    <br>
+    <button (click)=" getStartTime()" slb-button>submit</button>
   <slb-chart
   id="myChart"
   *ngIf="data.datasets.length > 0" 
   [ngStyle]="{'width': '1000px', 'height':'1000px','margin': '0 auto'}"
   [data]="data"
   [labels]="data.labels || []"
-  [title]="title"
+
   [chartType]="'line'"
   [chartOptions]="options"
   [legendPosition]="'top'"
@@ -148,14 +155,14 @@ style="width: 50%; margin: 0 auto;"
   [showTitle]="true"
   [showTooltip]="true"
   [titlePosition]="'top'"
+  
   ></slb-chart>
+  <h5 *ngIf="data.datasets.length == 0" >No data found, you can try another time range.</h5>
  </div>
 
 
- startTime{{startTime.toISOString()}}  endTime {{endTime}}
+ </mat-card>
 
-  </mat-card>
-  
 </body>
 
 </html>

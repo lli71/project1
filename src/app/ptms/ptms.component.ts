@@ -80,7 +80,6 @@
 // }
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { FormControl } from '@angular/forms';
 import { ApiService, MyData } from '../api.service';
@@ -92,7 +91,7 @@ import { ApiService, MyData } from '../api.service';
 })
 export class PtmsComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<MyData>;
-  displayedColumns: string[] = ['select', 'position', 'name', 'status', 'progress', 'unit', 'update'];
+  displayedColumns: string[] = ['select', 'position', 'tagName', 'status', 'value', 'storageUnit', 'update'];
   compact = false;
   isSearchVisible = true;
   searchControl: FormControl = new FormControl('');
@@ -104,7 +103,7 @@ export class PtmsComponent implements OnInit, OnDestroy {
   currentPage = 0;
   refreshInterval: any;
   selectedRows: MyData[] = [];
-  
+  public deviceId :string="168b812aed404678bc888a873209f90f"
  // Secondsource: MatTableDataSource<MyData>; // Declare Secondsource
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -133,13 +132,13 @@ export class PtmsComponent implements OnInit, OnDestroy {
   }
 
   loadData(): void {
-    this.apiService.getDeviceData().subscribe(data => {
+    this.apiService.getDeviceData(this.deviceId).subscribe(data => {
       const startIndex = this.currentPage * this.pageSize;
       const endIndex = startIndex + this.pageSize;
       const dataSlice = data.slice(startIndex, endIndex);
   
       const newData = dataSlice.map(item => {
-        const isSelected = this.selectedRows.some(selected => selected.name === item.name && selected.equipmentID === item.equipmentID);
+        const isSelected = this.selectedRows.some(selected => selected.tagName === item.tagName && selected.deviceId === item.deviceId);
         return { ...item, checked: isSelected };
       });
   
@@ -182,13 +181,18 @@ export class PtmsComponent implements OnInit, OnDestroy {
     row.checked = event.checked;
 
     if (event.checked) {
-      if (!this.selectedRows.some(selected => selected.name === row.name && selected.equipmentID === row.equipmentID)) {
+      if (!this.selectedRows.some(selected => selected.tagName === row.tagName && selected.deviceId === row.deviceId)) {
         this.selectedRows.push(row);
       }
     } else {
-      this.selectedRows = this.selectedRows.filter(selected => !(selected.name === row.name && selected.equipmentID === row.equipmentID));
+      this.selectedRows = this.selectedRows.filter(selected => !(selected.tagName === row.tagName && selected.deviceId === row.deviceId));
     }
 
     console.log('Selected rows:', this.selectedRows);
+  }
+  onDelete(index: number) {
+    if (index >= 0 && index < this.selectedRows.length) {
+      this.selectedRows.splice(index, 1); // Remove one element at 'index'
+    }
   }
 }

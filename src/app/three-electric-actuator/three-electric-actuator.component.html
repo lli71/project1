@@ -1,161 +1,160 @@
 <div style="display: flex; align-items: flex-start;">
-    <mat-card style="width: 70%; margin-left: 1%; margin-top: 1%;"> 
+  <mat-card style="width: 100%; margin-left: 1%; margin-top: 1%;"> 
 <table
-        mat-table
-        [dataSource]="dataSource"
-        matSort
-        class="dls-sample-table"
-        [class.dls-compact-table]="compact"
-      >
-        <caption>
-          <div class="caption-container">
-            <div class="title">Real Time Values</div>
-            <div class="controls">
-              <slb-search
-                *ngIf="isSearchVisible"
-                [searchControl]="searchControl"
-                [searchPlaceholder]="'Search'"
-                [searchStartLength]="1"
-              ></slb-search>
-            </div>
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      class="dls-sample-table"
+      [class.dls-compact-table]="compact"
+    >
+      <caption>
+        <div class="caption-container">
+          <div class="title">Real Time Values</div>
+          <div class="controls">
+            <slb-search
+              *ngIf="isSearchVisible"
+              [searchControl]="searchControl"
+              [searchPlaceholder]="'Search'"
+              [searchStartLength]="1"
+            ></slb-search>
           </div>
-        </caption>
-    
-        <ng-container matColumnDef="position">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            class="dls-table-cell-align-left"
-          >No.
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            class="dls-table-cell-align-left"
-          >
-            {{ element.position }}
-          </td>
-        </ng-container>
-    
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-        </ng-container>
-    
-        <ng-container matColumnDef="status">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            class="dls-table-cell-align-center"
-          >
-            Status
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            class="dls-table-cell-align-center"
-          >
-          <svg *ngIf="element.status" style="width: 20px; height: 20px; fill: green;">
-            <use xlink:href="assets/icons.svg#polar-point"></use>
-          </svg>
-          <svg *ngIf="!element.status" style="width: 20px; height: 20px; fill: red;">
-            <use xlink:href="assets/icons.svg#polar-point"></use>
-          </svg>
-          
-          </td>
-        </ng-container>
-    
-        <ng-container matColumnDef="progress">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            class="dls-table-cell-align-center"
-          >
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </th>
-          <td mat-cell *matCellDef="let element">
-            <ng-container *ngIf="element.progressValue === 'Yes' || element.progressValue === 'No'; else progressIndicator">
-              {{ element.progressValue }}
-            </ng-container>
-            <ng-template #progressIndicator>
-              <slb-progress-indicator
-                [mode]="progressIndicatorMode.Determinate"
-                [type]="progressIndicatorType.Neutral"
-                [value]="element.progressValue"
-              >
-              </slb-progress-indicator>
-            </ng-template>
-          </td>
-          
-        </ng-container>
-    
-        <ng-container matColumnDef="unit">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit</th>
-          <td mat-cell *matCellDef="let element">{{ element.unit }}</td>
-        </ng-container>
-    
+        </div>
+      </caption>
+  
+      <ng-container matColumnDef="position">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="dls-table-cell-align-left"
+        >No.
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          class="dls-table-cell-align-left"
+        >
+          {{ element.position }}
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="tagName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.tagName }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="status">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="dls-table-cell-align-left"
+        >
+          Status
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          class="dls-table-cell-align-left"
+        >
+        <svg *ngIf="element.status" style="width: 20px; height: 20px; fill: green;">
+          <use xlink:href="assets/icons.svg#polar-point"></use>
+        </svg>
+        <svg *ngIf="!element.status" style="width: 20px; height: 20px; fill: red;">
+          <use xlink:href="assets/icons.svg#polar-point"></use>
+        </svg>
         
-     <ng-container matColumnDef="range">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-          >
-            Range
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.range }}</td>
-        </ng-container>
+        </td>
+      </ng-container>
+  
 
-        <ng-container matColumnDef="select">
-          <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox
-              (change)="$event ? masterToggle() : null"
-              [checked]="isAllSelected()"
-              [indeterminate]="selection.hasValue() && !isAllSelected()"
-            ></mat-checkbox>
+      <ng-container matColumnDef="value">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Value</th>
+        <td mat-cell *matCellDef="let element">{{ element.value }}</td>
+      </ng-container>
+      <ng-container matColumnDef="storageUnit">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit</th>
+        <td mat-cell *matCellDef="let element">{{ element.storageUnit }}</td>
+      </ng-container>
+  
+      
+
+
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox
+          ></mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox  (change)="onCheckboxChange($event, row)"></mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="update">
+          <th mat-header-cell *matHeaderCellDef mat-header-cellclass="dls-table-cell-align-left" >
+              &nbsp;&nbsp;&nbsp;Update
           </th>
-          <td mat-cell *matCellDef="let row">
-            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"></mat-checkbox>
+          <td mat-cell *matCellDef="let element" class="dls-table-cell-align-left">
+            <button *ngIf="element.isUpdated"  slb-button>
+              Update
+            </button>
           </td>
         </ng-container>
+        
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr *matNoDataRow>
+        <td colspan="6">
+          <slb-empty-state iconName="info" message="Sorry, no data found">
+            <button slb-secondary-button type="button">Refresh</button>
+          </slb-empty-state>
+        </td>
+      </tr>
+    </table>
+    <slb-pagination-control
+    #paginator
+    [pageIndex]="currentPage"
+    [showLabel]="true"
+    [showPageCounter]="true"
+    [showFirstLastButtons]="true"
+    [showPageSize]="true"
+    [pageSizeOptions]="pageSizeOptions"
+    [pageSize]="pageSize"
+    [length]="length"
+    [disabled]="false"
+    (page)="onPageChange($event)"
+></slb-pagination-control>
+  </mat-card>
+  <img src="assets/images/Electric Actuator.png" alt="Modem Gas" style="width: 20%; margin-left: 1%; margin-top: 10%;">
 
-        <ng-container matColumnDef="update">
-            <th mat-header-cell *matHeaderCellDef mat-header-cellclass="dls-table-cell-align-left" >
-                &nbsp;&nbsp;&nbsp;Update
-            </th>
-            <td mat-cell *matCellDef="let element" class="dls-table-cell-align-left">
-              <button *ngIf="element.isUpdated" (click)="updateData()" [disabled]="isDisabled" slb-button>
-                Update
-              </button>
-            </td>
-          </ng-container>
-          
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        <tr *matNoDataRow>
-          <td colspan="6">
-            <slb-empty-state iconName="info" message="Sorry, no data found">
-              <button slb-secondary-button type="button">Refresh</button>
-            </slb-empty-state>
+</div> 
+<div>
+  <mat-card style="width: 78%; margin-left: 1%; margin-top: 1%;"> 
+    <h5>Data Comparison</h5>
+    <br>
+    <table *ngIf="selectedRows.length > 0"  style="border-collapse: collapse; font-family: Arial, sans-serif;">
+      <thead>
+        <tr>
+          <th style="border: 1px solid black; padding: 8px;">NO.</th>
+          <th style="border: 1px solid black; padding: 8px;">Equipment</th>
+          <th style="border: 1px solid black; padding: 8px;">Tag Name</th>
+          <th style="border: 1px solid black; padding: 8px;">Value</th>
+          <th style="border: 1px solid black; padding: 8px;">Unit</th>
+          <th style="border: 1px solid black; padding: 8px;">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of this.selectedRows;let i = index" style="border: 1px solid black;">
+          <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.position }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: left;">APVV</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.tagName }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.value }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.storageUnit }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: center;">
+            <button slb-button (click)="onDelete(i)" style="padding: 4px 8px; background-color: #f44336; color: white; border: none; cursor: pointer;">Delete</button>
           </td>
         </tr>
-      </table>
-      <slb-pagination-control
-      #paginator
-      
-      [showLabel]="showLabel"
-      [showPageCounter]="showPageCounter"
-      [showFirstLastButtons]="showFirstLastButtons"
-      [showPageSize]="showPageSize"
-      [pageSizeOptions]="pageSizeOptions"
-      [pageSize]="pageSize"
-      [length]="length"
-      [disabled]="isDisabled"
-      (page)="onPageChange($event)"
-  ></slb-pagination-control>
-    </mat-card>
-    <img src="assets/images/Electric Actuator.png" alt="Modem Gas" style="width: 20%; margin-left: 5%; margin-top: 10%;">
-  </div> 
- 
+      </tbody>
+    </table>
+  </mat-card> 
+  </div>
 

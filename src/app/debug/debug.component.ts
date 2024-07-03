@@ -23,7 +23,7 @@ export class DebugComponent implements OnInit {
   isCheckbox2Checked: boolean = false;
   // Pagination properties
   currentPage = 0;
-
+  public deviceId :string="168b812aed404678bc888a873209f90f"
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
   constructor(private apiService: ApiService) { // 注入 ApiService
@@ -36,7 +36,7 @@ export class DebugComponent implements OnInit {
   }
 
   loadData(): void {
-    this.apiService.getDeviceData().subscribe(data => {
+    this.apiService.getDeviceData(this.deviceId).subscribe(data => {
       // Assuming data is an array of MyData objects
       const startIndex = this.currentPage * this.pageSize;
       const endIndex = startIndex + this.pageSize;

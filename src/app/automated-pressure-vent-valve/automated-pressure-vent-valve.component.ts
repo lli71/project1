@@ -101,65 +101,86 @@ import { ApiService, MyData } from '../api.service';
 })
 export class AutomatedPressureVentValveComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<MyData>;
-  displayedColumns: string[] = ['select', 'position', 'name', 'status', 'progress', 'unit', 'update'];
+  displayedColumns: string[] = ['select', 'position', 'tagName', 'status', 'value', 'storageUnit', 'update'];
   compact = false;
   isSearchVisible = true;
   searchControl: FormControl = new FormControl('');
   mode = 'determinate';
   type = 'primary';
-  pageSizeOptions: number[] = [5, 6, 7, 8];
+  pageSizeOptions: number[] = [5, 10, 25, 100];
   pageSize = 5;
   length = 0;
   currentPage = 0;
+  refreshInterval: any;
   selectedRows: MyData[] = [];
+  public deviceId :string="6593430baec64babbdc29c7a5f1b24fc"
+ // Secondsource: MatTableDataSource<MyData>; // Declare Secondsource
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
   constructor(private apiService: ApiService) {
     this.dataSource = new MatTableDataSource<MyData>([]);
+   // this.Secondsource = new MatTableDataSource<MyData>([]); // Initialize Secondsource
   }
 
   ngOnInit(): void {
-    // 加载数据
+    this.dataSource.paginator = this.paginator;
+    //this.Secondsource.paginator = this.paginator;
+
+    this.searchControl.valueChanges.subscribe(value => {
+      this.applyFilter(value);
+    });
+
     this.loadData();
+    this.refreshInterval = setInterval(() => this.loadData(), 10000);
   }
 
   ngOnDestroy(): void {
-    // 清理订阅和资源
+    if (this.refreshInterval) {
+      clearInterval(this.refreshInterval);
+    }
   }
 
   loadData(): void {
-    this.apiService.getDeviceData().subscribe(data => {
-      // 只显示前5行数据
-      const slicedData = data.slice(0, this.pageSize);
-
-      // 加载数据到dataSource
-      this.dataSource.data = slicedData;
-
-      // 设置数据长度和分页器
+    this.apiService.getDeviceData(this.deviceId).subscribe(data => {
+      const startIndex = this.currentPage * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      const dataSlice = data.slice(startIndex, endIndex);
+  
+      const newData = dataSlice.map(item => {
+        const isSelected = this.selectedRows.some(selected => selected.tagName === item.tagName && selected.deviceId === item.deviceId);
+        return { ...item, checked: isSelected };
+      });
+  
+      // Update dataSource
+      this.dataSource.data = newData;
       this.length = data.length;
-      this.dataSource.paginator = this.paginator; // 设置分页器
-
-      // 设置分页器的初始值
-      this.paginator.pageSize = this.pageSize;
-      this.paginator.length = this.length;
-      this.paginator.firstPage();
-
-      // 应用初始过滤
-      const initialSearchValue = this.searchControl.value;
-      this.applyFilter(initialSearchValue);
+  
+      // Update Secondsource only if it hasn't been initialized yet
+      // if (this.Secondsource.data.length === 0) {
+      //   this.Secondsource.data = [...data]; // Assign data to Secondsource
+      //   this.Secondsource.paginator = this.paginator; // Set paginator for Secondsource
+      // }
+  
+      // Ensure both paginators are initialized and set to the same pageSize
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.pageSize = this.pageSize;
+        this.dataSource.paginator.firstPage();
+      }
+  
+      // if (this.Secondsource.paginator) {
+      //   this.Secondsource.paginator.pageSize = this.pageSize;
+      //   this.Secondsource.paginator.firstPage();
+      // }
     });
   }
+  
+  
 
   onPageChange(event: PageEvent): void {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
-    console.log('Page changed:', event);
-
-    // 处理数据切片或其他逻辑
-    const startIndex = this.currentPage * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.dataSource.data = this.dataSource.data.slice(startIndex, endIndex);
+    this.loadData();
   }
 
   applyFilter(filterValue: string): void {
@@ -170,11 +191,18 @@ export class AutomatedPressureVentValveComponent implements OnInit, OnDestroy {
     row.checked = event.checked;
 
     if (event.checked) {
-      this.selectedRows.push(row);
+      if (!this.selectedRows.some(selected => selected.tagName === row.tagName && selected.deviceId === row.deviceId)) {
+        this.selectedRows.push(row);
+      }
     } else {
-      this.selectedRows = this.selectedRows.filter(selected => selected !== row);
+      this.selectedRows = this.selectedRows.filter(selected => !(selected.tagName === row.tagName && selected.deviceId === row.deviceId));
     }
 
     console.log('Selected rows:', this.selectedRows);
+  }
+  onDelete(index: number) {
+    if (index >= 0 && index < this.selectedRows.length) {
+      this.selectedRows.splice(index, 1); // Remove one element at 'index'
+    }
   }
 }

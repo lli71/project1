@@ -90,23 +90,23 @@ export class AppComponent implements OnDestroy {
                 'explore-data',
             ],
         },
-        {
-            'label': 'debug',
-            'routerLink': [
-                '',
-                'debug',
-            ],
-        },
+        // {
+        //     'label': 'debug',
+        //     'routerLink': [
+        //         '',
+        //         'debug',
+        //     ],
+        // },
     ];
 
     private routerSubscription = Subscription.EMPTY;
 
     constructor(
         private router: Router,
-        matIconRegistry: MatIconRegistry,
+        // matIconRegistry: MatIconRegistry,
         domSanitizer: DomSanitizer
     ) {
-        matIconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/svg-symbols.svg'));
+        // matIconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/svg-symbols.svg'));
 
         this.routerSubscription = router.events.pipe(
             filter(e => e instanceof RoutesRecognized),

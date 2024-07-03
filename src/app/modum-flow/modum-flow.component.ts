@@ -1,41 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { FormControl } from '@angular/forms';
-import { ProgressIndicatorMode, ProgressIndicatorType } from '@slb-dls/angular-material/progress-indicator';
-import { SelectionModel } from '@angular/cdk/collections';
-export interface MyData {
-  equipment: string;
-  equipmentID: string;
-  position: number;
-  name: string;
-  status: boolean;
-  isUpdated: boolean;
-  progressValue: string;
-  range: string;
-  unit: string;
-}
-
- const ELEMENT_DATA: MyData[] = [
-  { equipment: 'Modum Flow', equipmentID: '3', position: 1, name: 'Valve Position', status: true, progressValue: '70', range: '0% - 100%', unit: '%', isUpdated:true },
-  { equipment: 'Modum Flow', equipmentID: '3', position: 2, name: 'Inlet Pressure', status: true, progressValue: '70', range: '0 - 200', unit: 'PSI' ,isUpdated:false},
-  { equipment: 'Modum Flow', equipmentID: '3', position: 3, name: 'Outlet Pressure', status: false, progressValue: '50', range: '0 - 200', unit: 'PSI',isUpdated:false },
-  { equipment: 'Modum Flow', equipmentID: '3', position: 4, name: 'Inlet Temperature', status: true, progressValue: '70', range: '0 - 50', unit: '°C',isUpdated:false },
-  { equipment: 'Modum Flow', equipmentID: '3', position: 5, name: 'Gas Flowrate', status: true, progressValue: '80', range: '0 - 150', unit: 'm³/hr' ,isUpdated:false},
-  { equipment: 'Modum Flow', equipmentID: '3', position: 6, name: 'Oil Flowrate', status: true, progressValue: '80', range: '0 - 150', unit: 'm³/hr' ,isUpdated:false},
-  { equipment: 'Modum Flow', equipmentID: '3', position: 7, name: 'Water Flowrate', status: true, progressValue: '80', range: '0 - 150', unit: 'm³/hr' ,isUpdated:false},
-  { equipment: 'Modum Flow', equipmentID: '3', position: 8, name: 'Sample Data 1', status: true, progressValue: '20', range: '0% - 100%', unit: '%' ,isUpdated:false},
-  { equipment: 'Modum Flow', equipmentID: '3', position: 9, name: 'Sample Data 2', status: true, progressValue: '20', range: '0% - 100%', unit: '%' ,isUpdated:false},
-  { equipment: 'Modum Flow', equipmentID: '3', position: 10, name: 'Sample Data 3', status: true, progressValue: '20', range: '0% - 100%', unit: '%' ,isUpdated:false},
-  { equipment: 'Modum Flow', equipmentID: '3', position: 11, name: 'Sample Data 4', status: true, progressValue: '20', range: '0% - 100%', unit: '%' ,isUpdated:false},
-  { equipment: 'Modum Flow', equipmentID: '3', position: 12, name: 'Sample Data 5', status: true, progressValue: '20', range: '0% - 100%', unit: '%' ,isUpdated:false},
-  { equipment: 'Modum Flow', equipmentID: '3', position: 13, name: 'Sample Data 6', status: true, progressValue: '20', range: '0% - 100%', unit: '%' ,isUpdated:false},
-  { equipment: 'Modum Flow', equipmentID: '3', position: 14, name: 'Sample Data 7', status: true, progressValue: '20', range: '0% - 100%', unit: '%' ,isUpdated:false},
-  { equipment: 'Modum Flow', equipmentID: '3', position: 15, name: 'Sample Data 8', status: true, progressValue: '20', range: '0% - 100%', unit: '%' ,isUpdated:false},
-  { equipment: 'Modum Flow', equipmentID: '3', position: 16, name: 'Sample Data 9', status: true, progressValue: '20', range: '0% - 100%', unit: '%' ,isUpdated:false},
-  { equipment: 'Modum Flow', equipmentID: '3', position: 17, name: 'Sample Data 10', status: true, progressValue: '20', range: '0% - 100%', unit: '%' ,isUpdated:false},
-];
+import { ApiService, MyData } from '../api.service';
 
 @Component({
   selector: 'app-modum-flow',
@@ -43,73 +10,97 @@ export interface MyData {
   styleUrls: ['./modum-flow.component.css']
 })
 export class ModumFlowComponent implements OnInit {
-  dataSource = new MatTableDataSource<MyData>(ELEMENT_DATA);
-  displayedColumns: string[] = ['select', 'position', 'name', 'status', 'progress', 'range', 'unit','update'];
-  searchControl = new FormControl();
-  pageSizeOptions: number[] = [5, 10, 25, 100];
-  pageSize = 5;
-  currentPage = 0;
-  length = ELEMENT_DATA.length;
+  dataSource: MatTableDataSource<MyData>;
+  displayedColumns: string[] = ['select', 'position', 'tagName', 'status', 'value', 'storageUnit', 'update'];
   compact = false;
   isSearchVisible = true;
-  showLabel = true;
-  showPageCounter = true;
-  showFirstLastButtons = true;
-  showPageSize = true;
-  isDisabled = false;
-  progressIndicatorMode = ProgressIndicatorMode;
-  progressIndicatorType = ProgressIndicatorType;
-  selection = new SelectionModel<MyData>(true, []);
+  searchControl: FormControl = new FormControl('');
+  mode = 'determinate';
+  type = 'primary';
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  pageSize = 5;
+  length = 0;
+  currentPage = 0;
+  refreshInterval: any;
+  selectedRows: MyData[] = [];
+  public deviceId :string="9e863d9eeb5f4dc1b67093f23f97c800"
 
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  ngOnInit() {
-    this.dataSource.sort = this.sort;
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+
+  constructor(private apiService: ApiService) {
+    this.dataSource = new MatTableDataSource<MyData>([]);
+  }
+
+  ngOnInit(): void {
     this.dataSource.paginator = this.paginator;
+    //this.Secondsource.paginator = this.paginator;
+
     this.searchControl.valueChanges.subscribe(value => {
       this.applyFilter(value);
     });
-    this.updateTableData();
+
+    this.loadData();
+    this.refreshInterval = setInterval(() => this.loadData(), 10000);
   }
 
-  applyFilter(filterValue: string) {
+  ngOnDestroy(): void {
+    if (this.refreshInterval) {
+      clearInterval(this.refreshInterval);
+    }
+  }
+
+  loadData(): void {
+    this.apiService.getDeviceData(this.deviceId).subscribe(data => {
+      const startIndex = this.currentPage * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      const dataSlice = data.slice(startIndex, endIndex);
+  
+      const newData = dataSlice.map(item => {
+        const isSelected = this.selectedRows.some(selected => selected.tagName === item.tagName && selected.deviceId === item.deviceId);
+        return { ...item, checked: isSelected };
+      });
+  
+      // Update dataSource
+      this.dataSource.data = newData;
+      this.length = data.length;
+
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.pageSize = this.pageSize;
+        this.dataSource.paginator.firstPage();
+      }
+
+    });
+  }
+  
+  
+
+  onPageChange(event: PageEvent): void {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.loadData();
+  }
+
+  applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  updateTableData() {
-    const startIndex = this.currentPage * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    const selectedData = this.selection.selected;
-    const unselectedData = ELEMENT_DATA.filter(item => !this.selection.selected.includes(item));
-    const newData = [...selectedData, ...unselectedData];
-    this.dataSource.data = newData.slice(startIndex, endIndex);
-    this.length = newData.length;
-  }
+  onCheckboxChange(event: any, row: MyData): void {
+    row.checked = event.checked;
 
-  onPageChange(event: PageEvent) {
-    this.currentPage = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.updateTableData();
-  }
+    if (event.checked) {
+      if (!this.selectedRows.some(selected => selected.tagName === row.tagName && selected.deviceId === row.deviceId)) {
+        this.selectedRows.push(row);
+      }
+    } else {
+      this.selectedRows = this.selectedRows.filter(selected => !(selected.tagName === row.tagName && selected.deviceId === row.deviceId));
+    }
 
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+    console.log('Selected rows:', this.selectedRows);
   }
-
-  masterToggle() {
-    this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(row => this.selection.select(row));
-    this.updateTableData();
+  onDelete(index: number) {
+    if (index >= 0 && index < this.selectedRows.length) {
+      this.selectedRows.splice(index, 1); // Remove one element at 'index'
+    }
   }
-
-  toggleSelection(row: MyData) {
-    this.selection.toggle(row);
-    this.updateTableData();
-  }
- updateData()
- {
-
- }
 }
