@@ -43,10 +43,10 @@ const routes: Routes = [
     },
   },
   {
-    path: 'chrismas-tree',
+    path: 'index',
     component: ChristmastreeComponent,
     data: {
-      title: 'Christmas Tree',
+      title: 'Intelligent Surface Production System',
     },
   },
   {
@@ -67,35 +67,35 @@ const routes: Routes = [
     path: 'three-eletric-actuator',
     component: ThreeElectricActuatorComponent,
     data: {
-      title: '3"Eletric Actuator',
+      title: 'Production Wing Valve',
     },
   },
   {
     path: 'six-eletric-actuator',
     component: SixElectricActuatorComponent,
     data: {
-      title: '6"Eletric Actuator',
+      title: 'Lower Mater Valve',
     },
   },
   {
     path: 'hydralic-actuator',
     component: HydraulicActuatorComponent,
     data: {
-      title: '5" Hudraulic Actuator',
+      title: 'Upper Master Valve',
     },
   },
   {
     path: 'automated-pressure-vent-valve',
     component: AutomatedPressureVentValveComponent,
     data: {
-      title: 'Automated Pressure Vent Valve Component',
+      title: 'APVV',
     },
   },
   {
     path: 'ptms',
     component: PtmsComponent,
     data: {
-      title: 'Pressure Temperature Monitor System',
+      title: 'PTMS',
     },
   },
   {

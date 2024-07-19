@@ -6,12 +6,15 @@
 // import { FormControl } from '@angular/forms';
 // import { ProgressIndicatorMode, ProgressIndicatorType } from '@slb-dls/angular-material/progress-indicator';
 // import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { FormControl } from '@angular/forms';
 import { ApiService, MyData } from '../api.service';
-
+import { SlbPopoverDirective } from '@slb-dls/angular-material/popover';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { Router, RoutesRecognized } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // export interface MyData {
 //   equipment: string;
 //   equipmentID: string;
@@ -48,7 +51,9 @@ import { ApiService, MyData } from '../api.service';
   styleUrls: ['./six-electric-actuator.component.css']
 })
 export class SixElectricActuatorComponent implements OnInit {
+  form: FormGroup;
   dataSource: MatTableDataSource<MyData>;
+  selectedRows: MyData[] = [];
   displayedColumns: string[] = ['select', 'position', 'tagName', 'status', 'value', 'storageUnit', 'update'];
   compact = false;
   isSearchVisible = true;
@@ -60,27 +65,89 @@ export class SixElectricActuatorComponent implements OnInit {
   length = 0;
   currentPage = 0;
   refreshInterval: any;
-  selectedRows: MyData[] = [];
-  public deviceId :string="bca428fb5428449ca75c7b6dc482a5a4"
- // Secondsource: MatTableDataSource<MyData>; // Declare Secondsource
+  public deviceId: string = "bca428fb5428449ca75c7b6dc482a5a4";
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @Input() slbPopoverTrigger: 'hover' | 'click';
+  @Input() hideArrow: boolean = false;
+  @Input() slbPopoverCloseOnClick = true;
+  @Input() slbPopoverCloseOnEscape = true;
+  @Input() slbPopoverDisabled = false;
+  @Input() useTargetElement = false;//unkown property
 
-  constructor(private apiService: ApiService) {
+  @Input() set slbPopoverBackdropClass(value: string) {
+    value = (value || '').trim();
+    // Ensure we assign an empty string if value is null or undefined
+    if (this.backDropClass !== value) {
+        this.backDropClass = value !== null ? value : '';
+        this._recreatePopover();
+    }
+}
+  constructor(private apiService: ApiService, private fb: FormBuilder) {
     this.dataSource = new MatTableDataSource<MyData>([]);
-   // this.Secondsource = new MatTableDataSource<MyData>([]); // Initialize Secondsource
+    this.form = this.fb.group({
+      accessToken: ['', [Validators.required, this.accessTokenValidator]],
+      value: ['', [Validators.required, Validators.min(0), Validators.max(100)]]
+    });
+  }
+  get slbPopoverBackdropClass() {
+    return this.backDropClass;
+}
+
+
+  @Input() set slbPopoverHasBackdrop(value: boolean) {
+      value = coerceBooleanProperty(value);
+      if (value !== this.hasBackDrop) {
+          this.hasBackDrop = value;
+          this._recreatePopover();
+      }
+  }
+  get slbPopoverHasBackdrop() {
+      return this.hasBackDrop;
   }
 
+  @Output() onClose = new EventEmitter();
+  @Output() closed = new EventEmitter();
+  @Output() onOpen = new EventEmitter();
+  @Output() opened = new EventEmitter();
+
+  @ViewChild(SlbPopoverDirective, { static: true }) popoverDirective: SlbPopoverDirective;
+
+  private backDropClass: string;
+  private hasBackDrop: boolean = false;
+
+  private _recreatePopover() {
+      if (this.popoverDirective) {
+          const isOpened = this.popoverDirective.isOpened;
+          if (isOpened) {
+              this.popoverDirective.closePopover();
+          }
+          this.popoverDirective.destroyPopover(); // to refresh settings
+          if (isOpened) {
+              setTimeout(() => this.popoverDirective.openPopover());
+          }
+      }
+  }
+  accessTokenValidator(control: any) {
+    return control.value === 'dcoedemo' ? null : { invalidAccessToken: true };
+  }
+
+  get accessToken() {
+    return this.form.get('accessToken');
+  }
+
+  get value() {
+    return this.form.get('value');
+  }
   ngOnInit(): void {
     this.dataSource.paginator = this.paginator;
-    //this.Secondsource.paginator = this.paginator;
 
     this.searchControl.valueChanges.subscribe(value => {
       this.applyFilter(value);
     });
 
     this.loadData();
-    this.refreshInterval = setInterval(() => this.loadData(), 10000);
+    this.refreshInterval = setInterval(() => this.loadData(), 180000);
   }
 
   ngOnDestroy(): void {
@@ -94,36 +161,22 @@ export class SixElectricActuatorComponent implements OnInit {
       const startIndex = this.currentPage * this.pageSize;
       const endIndex = startIndex + this.pageSize;
       const dataSlice = data.slice(startIndex, endIndex);
-  
+
       const newData = dataSlice.map(item => {
         const isSelected = this.selectedRows.some(selected => selected.tagName === item.tagName && selected.deviceId === item.deviceId);
         return { ...item, checked: isSelected };
       });
-  
-      // Update dataSource
+
       this.dataSource.data = newData;
       this.length = data.length;
-  
-      // Update Secondsource only if it hasn't been initialized yet
-      // if (this.Secondsource.data.length === 0) {
-      //   this.Secondsource.data = [...data]; // Assign data to Secondsource
-      //   this.Secondsource.paginator = this.paginator; // Set paginator for Secondsource
-      // }
-  
-      // Ensure both paginators are initialized and set to the same pageSize
+      this.updateSelectedRows();
+
       if (this.dataSource.paginator) {
         this.dataSource.paginator.pageSize = this.pageSize;
         this.dataSource.paginator.firstPage();
       }
-  
-      // if (this.Secondsource.paginator) {
-      //   this.Secondsource.paginator.pageSize = this.pageSize;
-      //   this.Secondsource.paginator.firstPage();
-      // }
     });
   }
-  
-  
 
   onPageChange(event: PageEvent): void {
     this.currentPage = event.pageIndex;
@@ -148,78 +201,35 @@ export class SixElectricActuatorComponent implements OnInit {
 
     console.log('Selected rows:', this.selectedRows);
   }
-  onDelete(index: number) {
+
+  onDelete(index: number): void {
     if (index >= 0 && index < this.selectedRows.length) {
-      this.selectedRows.splice(index, 1); // Remove one element at 'index'
+      this.selectedRows.splice(index, 1);
     }
   }
-//   dataSource = new MatTableDataSource<MyData>(ELEMENT_DATA);
-//   displayedColumns: string[] = ['select', 'position', 'name', 'status', 'progress', 'range', 'unit','update'];
-//   searchControl = new FormControl();
-//   pageSizeOptions: number[] = [5, 10, 25, 100];
-//   pageSize = 5;
-//   currentPage = 0;
-//   length = ELEMENT_DATA.length;
-//   compact = false;
-//   isSearchVisible = true;
-//   showLabel = true;
-//   showPageCounter = true;
-//   showFirstLastButtons = true;
-//   showPageSize = true;
-//   isDisabled = false;
-//   progressIndicatorMode = ProgressIndicatorMode;
-//   progressIndicatorType = ProgressIndicatorType;
-//   selection = new SelectionModel<MyData>(true, []);
-
-//   @ViewChild(MatSort) sort!: MatSort;
-//   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-//   ngOnInit() {
-//     this.dataSource.sort = this.sort;
-//     this.dataSource.paginator = this.paginator;
-//     this.searchControl.valueChanges.subscribe(value => {
-//       this.applyFilter(value);
-//     });
-//     this.updateTableData();
-//   }
-
-//   applyFilter(filterValue: string) {
-//     this.dataSource.filter = filterValue.trim().toLowerCase();
-//   }
-
-//   updateTableData() {
-//     const startIndex = this.currentPage * this.pageSize;
-//     const endIndex = startIndex + this.pageSize;
-//     const selectedData = this.selection.selected;
-//     const unselectedData = ELEMENT_DATA.filter(item => !this.selection.selected.includes(item));
-//     const newData = [...selectedData, ...unselectedData];
-//     this.dataSource.data = newData.slice(startIndex, endIndex);
-//     this.length = newData.length;
-//   }
-
-//   onPageChange(event: PageEvent) {
-//     this.currentPage = event.pageIndex;
-//     this.pageSize = event.pageSize;
-//     this.updateTableData();
-//   }
-
-//   isAllSelected() {
-//     const numSelected = this.selection.selected.length;
-//     const numRows = this.dataSource.data.length;
-//     return numSelected === numRows;
-//   }
-
-//   masterToggle() {
-//     this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(row => this.selection.select(row));
-//     this.updateTableData();
-//   }
-
-//   toggleSelection(row: MyData) {
-//     this.selection.toggle(row);
-//     this.updateTableData();
-//   }
-//  updateData()
-//  {
-
-//  }
+  submitForm(tagId: number): void {
+    if (this.form.valid) {
+      const { value } = this.form.controls;
+      this.apiService.setPointWrite(tagId, +value.value)
+        .subscribe(
+          response => {
+            console.log('设置成功', response);
+            console.log(tagId, value.value)
+            alert("Update Successfully");
+          },
+          error => {
+            console.error('设置失败', error);
+            // 可以在这里处理错误情况
+            alert("Some Error Happens");
+          }
+        );
+    }
+  }
+  updateSelectedRows(): void {
+    this.selectedRows = this.selectedRows.map(selected => {
+      const correspondingData = this.dataSource.data.find(data => data.tagName === selected.tagName && data.deviceId === selected.deviceId);
+      return correspondingData ? { ...selected, ...correspondingData } : selected;
+    });
+  }
 }
+

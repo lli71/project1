@@ -21,10 +21,10 @@ export class AppComponent implements OnDestroy {
     pageTitle: string = '';
     secondaryLinks: NavItem[] = [
         {
-            'label': 'Christmas Tree',
+            'label': 'Intelligent Surface Production System',
             'routerLink': [
                 '',
-                'chrismas-tree',
+                'index',
             ],
         },
         {
@@ -49,35 +49,35 @@ export class AppComponent implements OnDestroy {
             ],
         },
         {
-            'label': '3"Eletric Actuator',
+            'label': 'Production Wing Valve',
             'routerLink': [
                 '',
                 'three-eletric-actuator',
             ],
         },
         {
-            'label': 'six-eletric-actuator',
+            'label': 'Lower Master Valve',
             'routerLink': [
                 '',
                 'six-eletric-actuator',
             ],
         },
         {
-            'label': '5" Hudraulic Actuator',
+            'label': 'Upper Master Valve',
             'routerLink': [
                 '',
                 'hydralic-actuator',
             ],
         },
         {
-            'label': 'Automated Pressure Vent Valve Component',
+            'label': 'APVV',
             'routerLink': [
                 '',
                 'automated-pressure-vent-valve',
             ],
         },
         {
-            'label': 'Pressure Temperature Monitor System',
+            'label': 'PTMS',
             'routerLink': [
                 '',
                 'ptms',
@@ -103,10 +103,10 @@ export class AppComponent implements OnDestroy {
 
     constructor(
         private router: Router,
-        // matIconRegistry: MatIconRegistry,
+         matIconRegistry: MatIconRegistry,
         domSanitizer: DomSanitizer
     ) {
-        // matIconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/svg-symbols.svg'));
+         matIconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/svg-symbols.svg'));
 
         this.routerSubscription = router.events.pipe(
             filter(e => e instanceof RoutesRecognized),

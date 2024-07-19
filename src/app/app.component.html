@@ -1,6 +1,6 @@
 <slb-navigation-framework 
   [applicationLogo]="'assets/logos/delfi.png'"
-  [applicationName]="'Christmas Tree Demo Dashboard'"
+  [applicationName]="'DCOE Intelligent Surface Production System Dashboard'"
   [hasSidenav]="true" 
   [notifications]="true"
   [pageTitle]="pageTitle"
@@ -32,7 +32,7 @@
 
 <ng-template #toolbar>
   <!-- * * * The content below is only a placeholder and can be replaced * * * -->
-    <button slb-icon-button matTooltip="Help">
+    <!-- <button slb-icon-button matTooltip="Help">
       <mat-icon svgIcon="help"></mat-icon>
     </button>
     <slb-notifications-panel 
@@ -41,16 +41,16 @@
       [viewAllButtonVisible]="true"
     ></slb-notifications-panel>
     <slb-logout [userName]="'John Doe'">
-    </slb-logout>
+    </slb-logout> -->
   <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 </ng-template>
 
 <ng-template #sidenav>
   <mat-nav-list class="app-sidenav">
     <!-- * * * The content below is only a placeholder and can be replaced * * * -->
-    <!-- <a class="dls-navigation-item" matTooltip="Home" [matTooltipPosition]="'right'" [routerLink]="['home']">
+    <a class="dls-navigation-item" matTooltip="Home" [matTooltipPosition]="'right'" [routerLink]="['home']">
       <mat-icon svgIcon="home"></mat-icon>
-    </a> -->
+    </a>
     <a class="dls-navigation-item" matTooltip="Notifications"  [matTooltipPosition]="'right'" [routerLink]="['notifications']">
         <mat-icon svgIcon="layers"></mat-icon>
     </a>

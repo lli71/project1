@@ -1,5 +1,30 @@
-
-<img src="assets/images/christmasTree.png"  alt="Christmas Tree" style="width: 80%; margin-left: 10%;">
+<div class="image-container">
+    <img src="assets/images/christmasTree.png" alt="Christmas Tree" class="photo">
+    <svg class="icon" [style.left]="iconPosition1.x" [style.top]="iconPosition1.y" (click)="navigateToPage1()">
+      <use xlink:href="assets/icons.svg#polar-point"></use>
+    </svg>
+    <svg class="icon" [style.left]="iconPosition2.x" [style.top]="iconPosition2.y" (click)="navigateToPage2()">
+        <use xlink:href="assets/icons.svg#polar-point"></use>
+      </svg>
+      <svg class="icon" [style.left]="iconPosition3.x" [style.top]="iconPosition3.y" (click)="navigateToPage3()">
+        <use xlink:href="assets/icons.svg#polar-point"></use>
+      </svg>
+      <svg class="icon" [style.left]="iconPosition4.x" [style.top]="iconPosition4.y" (click)="navigateToPage4()">
+        <use xlink:href="assets/icons.svg#polar-point"></use>
+      </svg>
+      <svg class="icon" [style.left]="iconPosition5.x" [style.top]="iconPosition5.y" (click)="navigateToPage5()">
+        <use xlink:href="assets/icons.svg#polar-point"></use>
+      </svg>
+      <svg class="icon" [style.left]="iconPosition6.x" [style.top]="iconPosition6.y" (click)="navigateToPage6()">
+        <use xlink:href="assets/icons.svg#polar-point"></use>
+      </svg>
+      <svg class="icon" [style.left]="iconPosition7.x" [style.top]="iconPosition7.y" (click)="navigateToPage7()">
+        <use xlink:href="assets/icons.svg#polar-point"></use>
+      </svg>
+      <svg class="icon" [style.left]="iconPosition8.x" [style.top]="iconPosition8.y" (click)="navigateToPage8()">
+        <use xlink:href="assets/icons.svg#polar-point"></use>
+      </svg>
+  </div>
 <!-- <button mat-raised-button (click)="openDialog()">Update</button> -->
 <!-- christmastree.component.html -->
 <!-- christmastree.component.html -->
@@ -20,7 +45,7 @@
     color="primary"
    
 >
-     Toggle popover
+     Remote Access
 </button>
 
 <div class="popover-demo-target"[ngStyle]="{'display': useTargetElement ? 'flex': 'none'}" >
@@ -41,16 +66,60 @@
       #popup1
  
   >
-      <div class="demo-content">
+  <h5>
+    Remote Access
+</h5>
+  <form [formGroup]="form">
+    <div>
+      <label for="accessToken">Access Token:</label>
+      <br>
+      <input type="password" id="accessToken" formControlName="accessToken" placeholder="Access Token">
+      <br>
+      <span *ngIf="accessToken?.invalid && accessToken?.touched" class="error">
+        Invalid Access Token.
+      </span>
+      <span *ngIf="value?.valid && value?.touched" class="valid">
+        ✔
+      </span>
+    </div>
+   
+    <div>
+      <label for="value">Value (0-100):</label>
+      <br>
+      <input type="number" id="value" formControlName="value" placeholder="Value">
+      <br>
+      <span *ngIf="value?.invalid && value?.touched" class="error">
+        Value must be between 0 and 100.
+      </span>
+      <span *ngIf="value?.valid && value?.touched" class="valid">
+        ✔
+      </span>
+    </div>
+    <div class="actions">
+      <br>
+        <button
+            (click)="popup1.close()"
+            slb-secondary-button
+        >
+            Cancel
+        </button>
+        <button type="submit" [disabled]="form.invalid" slb-button>
+            Submit
+        </button>
+    </div>
+   
+  </form>
+      <!-- <div class="demo-content">
           <h5>
               Remote Access
           </h5>
-          <input>
+          Access Token: <br><input type="password" placeholder="Access Token">
+          <br>
           
-          <p style="width: 220px;">
-            Range is 0% to 100%
-          </p>
+          Value: <br><input type="number" placeholder=" From 0 to 100">%
+          <br>
           <div class="actions">
+            <br>
               <button
                   (click)="popup1.close()"
                   slb-secondary-button
@@ -61,5 +130,5 @@
                   Submit
               </button>
           </div>
-      </div>
+      </div> -->
   </slb-popover>

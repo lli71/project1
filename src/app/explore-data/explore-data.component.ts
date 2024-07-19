@@ -158,7 +158,7 @@ export class ExploreDataComponent implements OnInit {
     scales: {
       x: {
         type: 'time',
-        min: this.startTime.toISOString(),
+        //min: this.startTime.toISOString(),
        
         time: {
           tooltipFormat: 'yyyy-MM-dd HH:mm:ss',
@@ -179,20 +179,24 @@ export class ExploreDataComponent implements OnInit {
       
       y: {
         yAxisA: {
-          type: 'linear',
-          position: 'left',
           title: {
             display: true,
-            color:'red',
+            color: this.getColor(0), // Reference getColor method for color
             text: '1',
           },
+          type: 'linear',
+          position: 'left',
+          // title: {
+          //   display: true,
+          //   color: this.getColor(0), // Reference getColor method for color
+          //   text: '1',
+          // },
           ticks: {
-            color: 'red', // Tick color for yAxisA
+            color: this.getColor(0),
           },
           grid: {
-            color: 'red', // Grid line color for yAxisA
+            color: this.getColor(0),
           },
-      
         },
         yAxisB: {
           type: 'linear',
@@ -297,6 +301,8 @@ this.selectedDataSubject.next(this.selectedData);
     this. selectedTimeGranularity = Number(this.selectedTimeGranularity)
     console.log(this.selectedTimeGranularity,typeof this.selectedTimeGranularity )
     this.endTime = new Date(this.startTime.getTime() + this.selectedTimeGranularity).toISOString();
+    console.log("The start Time is"+this.startTime.toISOString())
+    console.log("The end Time is"+this.endTime)
     //this.updateChartData();
   }
 
@@ -326,12 +332,13 @@ this.selectedDataSubject.next(this.selectedData);
               //storageUnit:entry.storageUnit
             }));
   
-            const sampledData = this.downsample(rawData, 40);
+            const sampledData = this.downsample(rawData, 60);
   
             return {
               label: this.selectedData[index].tagName, // Use tagName from rowData
               data: sampledData,
               borderColor: this.getColor(index),
+              pointBackgroundColor:this.getColor(index),
               borderWidth: 2,
               fill: false,
               yAxisID: this.getYAxisID(index),
@@ -339,6 +346,26 @@ this.selectedDataSubject.next(this.selectedData);
             };
           });
   
+          // const yAxes = this.selectedData.map((item, index) => {
+          //   const color = this.getColor(index);
+          //   return {
+          //     id: this.getYAxisID(index),
+          //     type: 'linear',
+          //     position: index % 2 === 0 ? 'left' : 'right',
+          //     title: {
+          //       display: true,
+          //       color: color,
+          //       text: `Y-Axis ${index + 1}`,
+          //     },
+          //     ticks: {
+          //       color: color // y轴标签的颜色
+          //     },
+          //     grid: {
+          //       color: color // y轴网格线的颜色
+          //     },
+          //   };
+          // });
+
           if (this.chartInstance) {
             setTimeout(() => {
               this.chartInstance.update();
@@ -412,7 +439,7 @@ this.selectedDataSubject.next(this.selectedData);
 
   getColor(index: number): string {
     // Return color based on index
-    const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'];
+    const colors = ['#309840', '#0997C8', '#8152CA', '#E68C01', '#C71F76'];
     return colors[index % colors.length];
   }
 

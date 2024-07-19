@@ -128,7 +128,7 @@
     <img src="assets/images/PTMS.png" alt="Modem Gas" style="width: 15%; margin-left: 1%; margin-top: 10%;">
 
   </div> 
-  <div>
+  <!-- <div>
     <mat-card style="width: 83%; margin-left: 1%; margin-top: 1%;"> 
       <h5>Data Comparison</h5>
       <br>
@@ -157,7 +157,38 @@
         </tbody>
       </table>
     </mat-card> 
+    </div> -->
+    <div>
+      <mat-card style="width: 83%; margin-left: 1%; margin-top: 1%;">
+        <h5>Data Comparison</h5>
+        <br>
+        <table *ngIf="selectedRows.length > 0" style="border-collapse: collapse; font-family: Arial, sans-serif;">
+          <thead>
+            <tr>
+              <th style="border: 1px solid black; padding: 8px;">NO.</th>
+              <th style="border: 1px solid black; padding: 8px;">Equipment</th>
+              <th style="border: 1px solid black; padding: 8px;">Tag Name</th>
+              <th style="border: 1px solid black; padding: 8px;">Value</th>
+              <th style="border: 1px solid black; padding: 8px;">Unit</th>
+              <th style="border: 1px solid black; padding: 8px;">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of selectedRows; let i = index" style="border: 1px solid black;">
+              <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.position }}</td>
+              <td style="border: 1px solid black; padding: 8px; text-align: left;">APVV</td>
+              <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.tagName }}</td>
+              <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.value }}</td>
+              <td style="border: 1px solid black; padding: 8px; text-align: left;">{{ item.storageUnit }}</td>
+              <td style="border: 1px solid black; padding: 8px; text-align: center;">
+                <button (click)="onDelete(i)" style="padding: 4px 8px; background-color: #f44336; color: white; border: none; cursor: pointer;">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </mat-card>
     </div>
-
+    
+    
 
  

@@ -34,7 +34,7 @@
           *matCellDef="let element"
           class="dls-table-cell-align-left"
         >
-          {{ element.position }}
+          {{ element.position }} 
         </td>
       </ng-container>
   
@@ -94,9 +94,91 @@
               &nbsp;&nbsp;&nbsp;Update
           </th>
           <td mat-cell *matCellDef="let element" class="dls-table-cell-align-left">
-            <button *ngIf="element.isUpdated"  slb-button>
+            <!-- <button *ngIf="element.isUpdated"  slb-button>
               Update
-            </button>
+            </button> -->
+            <button
+            *ngIf="element.isUpdated" 
+    [slbPopoverTriggerFor]="popup1"
+    [slbPopoverBackdropClass]="slbPopoverBackdropClass"
+    [slbPopoverHasBackdrop]="slbPopoverHasBackdrop"
+    [slbPopoverTrigger]="'click'"
+    [slbPopoverCloseOnClick]=false
+    [slbPopoverCloseOnEscape]=false
+    [slbPopoverDisabled]="slbPopoverDisabled"
+    [slbPopoverTarget]="useTargetElement ? target : undefined"
+    (closed)="closed.emit($event);"
+    (opened)="opened.emit($event)"
+    slb-button
+    color="primary"
+   
+>
+     Remote Access
+</button>
+<div class="popover-demo-target"[ngStyle]="{'display': useTargetElement ? 'flex': 'none'}" >
+  <div>
+      <mat-icon
+          #target
+          svgIcon="target"
+      ></mat-icon>
+      <span> Target element </span>
+  </div>
+</div>
+
+
+<slb-popover
+    [hideArrow]="hideArrow"
+    (onClose)="onClose.emit($event)"
+    (onOpen)="onOpen.emit($event)"
+    #popup1
+
+>
+<h5>
+  Remote Access
+</h5>
+<form [formGroup]="form" (ngSubmit)="submitForm(element.tagId)">
+  <div>
+    <label for="accessToken">Password:</label>
+    <br>
+    <input type="password" id="accessToken" formControlName="accessToken" placeholder="Access Token">
+    <br>
+    <span *ngIf="accessToken?.invalid && accessToken?.touched" class="error">
+      Invalid Access Token.
+    </span>
+    <!-- <span *ngIf="value?.valid && value?.touched" class="valid">
+      ✔
+    </span> -->
+  </div>
+ 
+  <div>
+    <label for="value">Value (0 or 1):</label>
+    <br>
+    <input type="number" id="value" formControlName="value"  min="0" max="1"  value="0">
+    <br>
+    <span *ngIf="value?.invalid && value?.touched" class="error">
+      Required
+    </span>
+    <!-- <span *ngIf="value?.valid && value?.touched" class="valid">
+      ✔
+    </span> -->
+  </div>
+  <div class="actions">
+    <br>
+      <button
+          (click)="popup1.close()"
+          slb-secondary-button
+      >
+          Cancel
+      </button>
+      <button type="submit" [disabled]="form.invalid" slb-button>
+          Submit
+      </button>
+  </div>
+ 
+</form>
+
+</slb-popover>
+
           </td>
         </ng-container>
         

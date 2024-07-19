@@ -1,0 +1,7 @@
+.valid {
+    color: green; /* Green color for valid state */
+  }
+  
+  .error {
+    color: red; /* Red color for invalid state */
+  }

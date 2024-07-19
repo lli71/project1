@@ -60,7 +60,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { SlbPopoverDemoComponent } from './slb-popover-demo/slb-popover-demo.component';
 import { DebugComponent } from './debug/debug.component';
-
+import { SlbNumericInputControlModule } from '@slb-dls/angular-material/numeric-input-control';
+import { SlbInputMaskModule } from '@slb-dls/angular-material/input-mask';
 // import {
 //   SlbAutocompleteEditorComponent,
 //   SlbColorEditorComponent,
@@ -141,7 +142,9 @@ const defaultColor = {
     SlbProgressIndicatorModule,
     SlbEmptyStateModule,
     SlbChartModule,
-    AgGridModule
+    AgGridModule,
+    SlbNumericInputControlModule,
+    SlbInputMaskModule
   ],
   providers: [
     { provide: SLB_THEMING_OPTIONS, useValue: themeConfig },

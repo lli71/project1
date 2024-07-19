@@ -103,3 +103,5 @@ export class DataTableServiceService {
   );
   }
 }
+//tagId：371 
+// 当tagName为LMV Close Valve Cmd 268，LMV EMG Shutdown 269，LMV Open Valve Cmd 267，WV Close Valve Cmd 230，WV EMG Shutdown 160，WV EMG Shutdown (All) 122，Actuator Position Setpoint 371，WV Open Valve Cmd 135

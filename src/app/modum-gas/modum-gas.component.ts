@@ -11,7 +11,8 @@ import { ApiService, MyData } from '../api.service';
 })
 export class ModumGasComponent implements OnInit {
   dataSource: MatTableDataSource<MyData>;
-  displayedColumns: string[] = ['select', 'position', 'tagName', 'status', 'value', 'storageUnit', 'update'];
+  selectedRows: MyData[] = [];
+  displayedColumns: string[] = ['select', 'position', 'tagName', 'status', 'value', 'storageUnit'];
   compact = false;
   isSearchVisible = true;
   searchControl: FormControl = new FormControl('');
@@ -22,20 +23,16 @@ export class ModumGasComponent implements OnInit {
   length = 0;
   currentPage = 0;
   refreshInterval: any;
-  selectedRows: MyData[] = [];
-  public deviceId :string="a53a4206d5294bf7b205311dcbcac9b5"
- // Secondsource: MatTableDataSource<MyData>; // Declare Secondsource
+  public deviceId: string = "a53a4206d5294bf7b205311dcbcac9b5";
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
   constructor(private apiService: ApiService) {
     this.dataSource = new MatTableDataSource<MyData>([]);
-   // this.Secondsource = new MatTableDataSource<MyData>([]); // Initialize Secondsource
   }
 
   ngOnInit(): void {
     this.dataSource.paginator = this.paginator;
-    //this.Secondsource.paginator = this.paginator;
 
     this.searchControl.valueChanges.subscribe(value => {
       this.applyFilter(value);
@@ -56,36 +53,22 @@ export class ModumGasComponent implements OnInit {
       const startIndex = this.currentPage * this.pageSize;
       const endIndex = startIndex + this.pageSize;
       const dataSlice = data.slice(startIndex, endIndex);
-  
+
       const newData = dataSlice.map(item => {
         const isSelected = this.selectedRows.some(selected => selected.tagName === item.tagName && selected.deviceId === item.deviceId);
         return { ...item, checked: isSelected };
       });
-  
-      // Update dataSource
+
       this.dataSource.data = newData;
       this.length = data.length;
-  
-      // Update Secondsource only if it hasn't been initialized yet
-      // if (this.Secondsource.data.length === 0) {
-      //   this.Secondsource.data = [...data]; // Assign data to Secondsource
-      //   this.Secondsource.paginator = this.paginator; // Set paginator for Secondsource
-      // }
-  
-      // Ensure both paginators are initialized and set to the same pageSize
+      this.updateSelectedRows();
+
       if (this.dataSource.paginator) {
         this.dataSource.paginator.pageSize = this.pageSize;
         this.dataSource.paginator.firstPage();
       }
-  
-      // if (this.Secondsource.paginator) {
-      //   this.Secondsource.paginator.pageSize = this.pageSize;
-      //   this.Secondsource.paginator.firstPage();
-      // }
     });
   }
-  
-  
 
   onPageChange(event: PageEvent): void {
     this.currentPage = event.pageIndex;
@@ -110,9 +93,18 @@ export class ModumGasComponent implements OnInit {
 
     console.log('Selected rows:', this.selectedRows);
   }
-  onDelete(index: number) {
+
+  onDelete(index: number): void {
     if (index >= 0 && index < this.selectedRows.length) {
-      this.selectedRows.splice(index, 1); // Remove one element at 'index'
+      this.selectedRows.splice(index, 1);
     }
   }
+
+  updateSelectedRows(): void {
+    this.selectedRows = this.selectedRows.map(selected => {
+      const correspondingData = this.dataSource.data.find(data => data.tagName === selected.tagName && data.deviceId === selected.deviceId);
+      return correspondingData ? { ...selected, ...correspondingData } : selected;
+    });
+  }
 }
+
